@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+#hide{
+        background-color:lightblue;
+        color : white;
+        }
+#show{
+        background-color:lightblue;
+        color : white;
+    }
+p {
+    color:red;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("#hide").click(function(){
+    $("p").hide();
+    });
+    $("#show").click(function(){
+    $("p").show();
+    });
+});
+</script>
+</head>
+<body>
+
+<p><b>you can show and hide me with this buttons.</b></p>
+
+<button id="hide"><b>Hide the text above</b></button>
+<button id="show"><b>Show the text above</b> </button>
+
+</body>
+</html>

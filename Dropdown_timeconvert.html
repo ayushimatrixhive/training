@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <script type="text/javascript" src="tempconversion.js"></script>
+    </head>
+            <style>
+                .abc {
+                background-color: rgb(224, 222, 221);
+                color: black;
+                border: 1px solid black;
+                margin: 10px;
+                padding: 10px;
+                text-align: center;
+                font-size: large;
+                }
+                lable{
+                    width:100px;
+                    display :inline-block;
+                }
+            </style>
+            <body>
+
+                    <div class="abc">
+                    <lable>Second:</lable> 
+                    <span id="outputiminute"></span>
+                    <lable>=</lable> 
+                    <lable>Minute:</lable> 
+                    <span id="outputsecond"></span><br>
+                    <input id="inputsecond" type="number" placeholder="Second" oninput="Converterm(this.value)" onchange="Convertercs(this.value)">
+                    
+
+                    <input id="inputminute" type="number" placeholder="Minute" oninput="Convertercs(this.value)" onchange="Converterm(this.value)">
+                    
+                    
+                    </div>
+                    <script>
+                        function Converterm(valNum1) {
+                        valNum1 = parseFloat(valNum1);
+                        document.getElementById("outputsecond").innerHTML=(valNum1 / 60);
+
+
+                        function Convertercs(valNum) {
+                        valNum = parseFloat(valNum);
+                        document.getElementById("outputiminute").innerHTML=(valNum*60);
+                        }
+                    }
+                    </script>
+
+            </body>
+    </html>

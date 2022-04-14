@@ -1,0 +1,39 @@
+<html>
+    <body>
+        <style>
+            .abc {
+                background-color: rgb(224, 222, 221);
+                color: black;
+                border: 1px solid black;
+                margin: 20px;
+                padding: 20px;
+                text-align:center;
+                font-size: large;
+                }
+            p{
+                color:rgb(160, 21, 21);
+                text-align:center;
+                font-size: large;
+            }
+            .c{
+                color:red;
+                text-align: center;
+            }
+        </style>
+        <div class="abc">
+        <form>
+        Price : <input type="text" id="price" />x
+        Qty.: <input type="text" id="qty"  onkeyup="add()"><br>  
+        <br>
+        <input type="text" id="c" class="c" />
+        </form> 
+        </div>    
+    </body> 
+    <script>
+        function add() {
+        var x = parseInt(document.getElementById("price").value);
+        var y = parseInt(document.getElementById("qty").value)
+        document.getElementById("c").value = x * y;
+        }
+    </script>       
+</html>

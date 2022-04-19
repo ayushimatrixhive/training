@@ -3,16 +3,25 @@
 <head>
 <style>
 #hide{
-        background-color:lightblue;
+        background-color:rgb(3, 27, 129);
         color : white;
         }
 #show{
-        background-color:lightblue;
+        background-color:rgb(3, 27, 129);
         color : white;
     }
 p {
     color:red;
 }
+.xyz {
+                background-color: rgb(224, 222, 221);
+                color: black;
+                border: 1px solid black;
+                margin: 20px;
+                padding: 20px;
+                text-align:center;
+                font-size: large;
+                }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
@@ -27,11 +36,11 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-
+    <div class="xyz">
 <p><b>you can show and hide me with this buttons.</b></p>
 
 <button id="hide"><b>Hide the text above</b></button>
 <button id="show"><b>Show the text above</b> </button>
-
+ </div>
 </body>
 </html>

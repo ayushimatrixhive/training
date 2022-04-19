@@ -1,49 +1,145 @@
-<html>
-    <head>
-        <script type="text/javascript" src="tempconversion.js"></script>
-    </head>
-            <style>
-                .abc {
-                background-color: rgb(224, 222, 221);
-                color: black;
-                border: 1px solid black;
-                margin: 10px;
-                padding: 10px;
-                text-align: center;
-                font-size: large;
-                }
-                lable{
-                    width:100px;
-                    display :inline-block;
-                }
-            </style>
-            <body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIME CONVERTOR</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<style>
+    body{
+        margin: 0px;
+        padding:0px;
+    }
+    .converter-body{
+        width: 400px;
+        height: 250px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform:translate(-50%,-50%);
+        box-shadow:0px 0px 2px 1px #CACACA;
+    }
+    .converter-title{
+        text-align: center;
+        margin: 13px 0px;
+    }
+    input{
+        height:25px;
+        text-align: center;
+    }
+    #input{
+        margin-left: 35px;
+    }
+    #inputType{
+        height:25px;
+    
+    }
+    #inputType,#resultType{
+        width: 162.66px;
+        margin-left: 32px;
+        color:black;
+    }
+    #resultType{
+        margin-left: 10.25px;
+        height:25px;
+    }
+    #lang{
+        width: 400.66px;
+        height:25px;
+        }
 
-                    <div class="abc">
-                    <lable>Second:</lable> 
-                    <span id="outputiminute"></span>
-                    <lable>=</lable> 
-                    <lable>Minute:</lable> 
-                    <span id="outputsecond"></span><br>
-                    <input id="inputsecond" type="number" placeholder="Second" oninput="Converterm(this.value)" onchange="Convertercs(this.value)">
-                    
+</style>
+<body>
+    <div class ="converter-body">
+        <form action="#">
+            <select name="time" id="lang">
+              <option value="time">Time</option>
+              <option value="minute1">Minute</option>
+              <option value="second1">Second</option>
+            </select>
 
-                    <input id="inputminute" type="number" placeholder="Minute" oninput="Convertercs(this.value)" onchange="Converterm(this.value)">
-                    
-                    
-                    </div>
-                    <script>
-                        function Converterm(valNum1) {
-                        valNum1 = parseFloat(valNum1);
-                        document.getElementById("outputsecond").innerHTML=(valNum1 / 60);
+        <h1 class ="converter-title">TIME CONVERTOR</h1>
+        <br>
+        <br>
+         <input type="text" placeholder="" id="input" value="">
+         <span>=</span>
+         <input type="text" placeholder="" id="result" value="">
+         <select id="inputType" >
+             <option value="minute">Minute</option>
+             <option value="second">Second</option>
+         </select>
+         <select id="resultType" >
+            <option value="second">Second</option>
+            <option value="minute">Minute</option>
+        </select>
+     </div>
+ </body>
+ <script>
+    var input = document.getElementById('input');
+    var result = document.getElementById('result');
+    var inputType = document.getElementById('inputType');
+    var resultType = document.getElementById('resultType');
 
+    input.addEventListener("keyup",myResult);
+    input.addEventListener("keyup",changeMyResult);
+    inputType.addEventListener("change",myResult);
+    resultType.addEventListener("change",changeMyResult);
 
-                        function Convertercs(valNum) {
-                        valNum = parseFloat(valNum);
-                        document.getElementById("outputiminute").innerHTML=(valNum*60);
-                        }
-                    }
-                    </script>
+    function myResult() {
+       inputTypeValue = inputType.value;
 
-            </body>
-    </html>
+       if(inputTypeValue==="minute") {
+           result.value = Number((input.value)*60);
+       } else {
+           result.value = Number((input.value)/60);
+       }
+
+       var inputQuery = document.querySelector('#inputType');
+       var resultQuery = document.querySelector('#resultType');
+
+       inputQuery.addEventListener('change', function() {
+       var value = inputQuery.value;
+       switch(value) {
+         case 'minute':
+         resultQuery.value = 'second';
+         break;
+     
+         case 'second':
+         resultQuery.value = 'minute';
+         break;
+        }
+   })
+
+ }
+
+  function changeMyResult() {
+       resultTypeValue = resultType.value;
+
+       if(resultTypeValue==="minute") {
+           result.value = Number((input.value)/60);
+       } else {
+           result.value = Number((input.value)*60);
+       }
+
+       var resultQuery = document.querySelector('#resultType');
+       var inputQuery = document.querySelector('#inputType');
+
+       resultQuery.addEventListener('change', function() {
+        var value = resultQuery.value;
+        switch(value) {
+         case 'minute':
+         inputQuery.value = 'second';
+         break;
+     
+         case 'second':
+         inputQuery.value = 'minute';
+         break;
+        }
+   })
+ }
+
+   </script>
+     </script>
+</html>

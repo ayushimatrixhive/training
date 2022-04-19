@@ -1,18 +1,36 @@
 <html>
+<head>
+    <script src="script.js"></script>
+    <link href="stylesheet.css" rel="stylesheet">
+</head>
+<style>
+    .xyz {
+                background-color: rgb(224, 222, 221);
+                color: black;
+                border: 1px solid black;
+                margin: 20px;
+                padding: 20px;
+                text-align:center;
+                font-size: large;
+                }
+    #val{
+        color:brown;
+    }
+</style>
 <body>
-    <div>
-
-        <h1>This is basic example in JAVASCRIPT</h1>
-
-        <input type="text" id="fname" name="fname" placeholder="This is basic example.." ><br>
-
+    <div class="xyz">
+    <div class="input-text">
+        <input type="text" id="abc" onClick="a.input();" value=" ">
+        <p id="val"></p>
     </div>
-
-
-  
-
-
-
+</div>
 </body>
-</html>
+<script>
+var a = document.getElementById('abc');
+var p = document.getElementById('val');
 
+a.addEventListener('input', function() {
+    p.textContent = a.value;
+});
+</script>
+</html>

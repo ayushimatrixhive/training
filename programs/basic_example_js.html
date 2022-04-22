@@ -1,0 +1,36 @@
+<html>
+<head>
+    <script src="script.js"></script>
+    <link href="stylesheet.css" rel="stylesheet">
+</head>
+<style>
+    .xyz {
+                background-color: rgb(224, 222, 221);
+                color: black;
+                border: 1px solid black;
+                margin: 20px;
+                padding: 20px;
+                text-align:center;
+                font-size: large;
+                }
+    #val{
+        color:brown;
+    }
+</style>
+<body>
+    <div class="xyz">
+    <div class="input-text">
+        <input type="text" id="abc" onClick="abc.input();" value=" ">
+        <p id="val"></p>
+    </div>
+</div>
+</body>
+<script>
+var abc = document.getElementById('abc');
+var pqr = document.getElementById('val');
+
+abc.addEventListener('input', function() {
+     pqr.textContent = abc.value;
+});
+</script>
+</html>

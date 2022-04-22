@@ -1,0 +1,242 @@
+<html lang="en">
+
+<head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      height: 100vh;
+
+    }
+
+    .main {
+      height: 400px;
+      width: 250px;
+      display: grid;
+      place-items: center;
+      color: black;
+      font-family: verdana;
+    }
+
+    #box {
+      height: 80px;
+      width: 80%;
+      border: 1px solid black;
+      outline: none;
+      outline: none;
+      text-align: center;
+    }
+
+    /* CSS property for slider */
+    input[type="range"] {
+      -webkit-appearance: none;
+      height: 10px;
+      width: 80%;
+      outline: none;
+      color: black;
+    }
+
+    /* CSS property for slider thumb */
+    input[type="range"]::-webkit-slider-thumb:hover.pointer {
+      -webkit-appearance: none;
+      height: 25px;
+      width: 25px;
+      color: black;
+      background: #fff;
+      cursor: pointer;
+      border: 1px solid black;
+    }
+
+    /*slider color css */
+    .main #r1 {
+      background: linear-gradient(90deg, #000, red);
+      width: 100%;
+      height: 15px;
+    }
+
+    .main #r2 {
+      background: linear-gradient(90deg, #000, green);
+      width: 100%;
+      height: 15px;
+
+    }
+
+    .main #r3 {
+      background: linear-gradient(90deg, #000, blue);
+      width: 100%;
+      height: 15px;
+    }
+
+    /* color-picker value change */
+    .range-wrap {
+      width: 80%;
+      height: 30%;
+      position: relative;
+      margin: 0 auto 3rem;
+    }
+
+    .range {
+      width: 100%;
+    }
+
+    .bubble {
+      background: lightgray;
+      color: black;
+      border: 1px solid gray;
+      padding: 2px 8px;
+      position: absolute;
+      margin-bottom: 10px;
+      transform: translateX(-10%);
+      margin-top: 20px;
+    }
+
+    .bubble::after {
+      content: "";
+      position: absolute;
+      width: 1px;
+      height: 3px;
+      margin-bottom: 10%;
+      top: -1px;
+    }
+
+    body {
+      margin: 2rem;
+    }
+  </style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rgb color maker</title>
+</head>
+
+<body>
+  <div class="main">
+    <textarea id="id1" cols="60" rows="8" readonly></textarea>
+    <!-- RGB value boxes !-->
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div class="range-wrap">
+      Red:<input id="red" class="d" type=text size=3 maxlength=3 min="0" max="255" name="r" value="0" onBlur="rgb()"
+        onkeyup='if(!validnum(this.value)) this.value="";'> <input type="hidden" id="sideid1">
+      <br>
+      <br>
+      <input type="range" class="range" id="r1" min="0" max="255" onchange="colorchange()"><output
+        class="bubble"></output>
+    </div>
+
+    <div class="range-wrap">
+      Green: <input id="green" class="d" type=text size=3 maxlength=3 min="0" max="255" name="g" value="0"
+        onBlur="rgb()" onkeyup='if(!validnum(this.value)) this.value="";'> <input type="hidden" id="sideid2">
+      <br>
+      <br>
+      <input type="range" class="range" id="r2" min="0" max="255" onchange="colorchange1()"><output
+        class="bubble"></output>
+    </div>
+
+    <div class="range-wrap">
+      Blue:<input id="blue" class="d" type=text size=3 maxlength=3 min="0" max="255" name="b" value="0" onBlur="rgb()"
+        onkeyup='if(!validnum(this.value)) this.value="";'><input type="hidden" id="sideid3">
+      <br>
+      <br>
+      <input type="range" class="range" id="r3" min="0" max="255" onchange="colorchange2()"><output
+        class="bubble"></output>
+    </div>
+  </div>
+
+  <script>
+
+    function rgb() {
+      var r = document.getElementById("red").value
+      document.getElementById("sideid1").style.backgroundColor =
+        "rgb(" + document.getElementById("red").value;
+
+      var g = document.getElementById("green").value
+      document.getElementById("sideid2").style.backgroundColor =
+        "rgb(" + document.getElementById("green").value;
+
+      var b = document.getElementById("blue").value
+      document.getElementById("sideid3").style.backgroundColor =
+        "rgb(" + document.getElementById("blue").value;
+
+      document.getElementById("id1").style.backgroundColor =
+        "rgb(" + document.getElementById("red").value + ","
+        + document.getElementById("green").value + ","
+        + document.getElementById("blue").value + ")";
+
+
+      var r = document.getElementById("red").value;
+      document.getElementById("r1").value = r;
+
+      //  var r = $('#red').value;
+      //  ('#r1').val()=r ;
+
+      var r = document.getElementById("green").value;
+      document.getElementById("r2").value = r;
+
+      var r = document.getElementById("blue").value;
+      document.getElementById("r3").value = r;
+
+    }
+
+    function colorchange() {
+      var s = document.getElementById("r1").value;
+      document.getElementById("red").value = s
+      rgb()
+    }
+
+    function colorchange1() {
+      var s = document.getElementById("r2").value;
+      document.getElementById("green").value = s
+      rgb()
+    }
+
+    function colorchange2() {
+      var s = document.getElementById("r3").value;
+      document.getElementById("blue").value = s
+      rgb()
+
+    }
+
+    function validnum(a) {
+      if (a < 0 || a > 255)
+        return false;
+      else
+        return true;
+    }
+
+
+    const picker = document.querySelectorAll(".range-wrap");
+    picker.forEach(abc => {
+      const arrow = abc.querySelector(".range");
+      const arrow_point = abc.querySelector(".bubble");
+
+      arrow.addEventListener("input", () => {
+        setPiker(arrow, arrow_point);
+      });
+      setPiker(arrow, arrow_point);
+    });
+
+    function setPiker(arrow, arrow_point) {
+      const val = arrow.value;
+      const min = arrow.min ? arrow.min : 0;
+      const max = arrow.max ? arrow.max : 255;
+      const newVal = Number(((val - min) * 100) / (max - min));
+      console.log(arrow_point.innerHTML)
+      arrow_point.innerHTML = val;
+
+      // Sorta magic numbers based on size of the native UI thumb
+      arrow_point.style.left = `calc(${newVal}% + (${8 - newVal * 0.15}px))`;
+    }
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEMPERATURE CONVERTOR</title>
+</head>
+<style>
+    body{
+        margin: 0px;
+        padding:0px;
+    }
+    .converter-body{
+        width: 400px;
+        height: 250px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform:translate(-50%,-50%);
+        box-shadow:0px 0px 2px 1px #CACACA;
+    }
+    .converter-title{
+        text-align: center;
+        margin: 13px 0px;
+    }
+    input{
+        height:25px;
+        text-align: center;
+    }
+    #input{
+        margin-left: 35px;
+    }
+    #inputType{
+        height:25px;
+    
+    }
+    #inputType,#resultType{
+        width: 161.66px;
+        margin-left: 30px;
+        color: red;
+    }
+    #resultType{
+        margin-left: 12.20px;
+        height:25px;
+    }
+</style>
+<body>
+    <div class ="converter-body">
+        <h1 class ="converter-title">TEMPERATURE CONVERTOR</h1>
+        <br>
+        <br>
+         <input type="text" placeholder="" id="input" value="">
+         <span>=</span>
+         <input type="text" placeholder="" id="result" value="">
+         <select id="inputType">
+             <option value="celsius">Celsius</option>
+             <option value="fahrenheit">Fahrenheit</option>
+         </select>
+         <select id="resultType">
+             <option value="fahrenheit">Fahrenheit</option>
+             <option value="celsius">Celsius</option>
+        </select>
+     </div>
+</body>
+<script>
+    var input = document.getElementById('input');
+    var result = document.getElementById('result');
+    var inputType = document.getElementById('inputType');
+    var resultType = document.getElementById('resultType');
+
+    input.addEventListener("keyup",myResult);		
+    result.addEventListener("keyup",changeMyResult);
+    inputType.addEventListener("change",myResult);
+    resultType.addEventListener("change",changeMyResult);
+
+    function myResult() {
+        inputTypeValue = inputType.value;
+        if(inputTypeValue==="celsius") {
+            result.value = Number(((input.value) * 1.8)+32);
+        } else {
+             result.value = Number(((input.value)-32)/1.8);
+        }
+    }  
+    function changeMyResult() {
+        resultTypeValue = resultType.value;
+        if(resultTypeValue==="fahrenheit") {
+            input.value = Number(((result.value)-32)/1.8);
+        } else {
+            input.value = Number(((result.value) * 1.8)+32);
+        } 
+    }
+    var inputQuery = document.querySelector('#inputType');
+    var resultQuery = document.querySelector('#resultType');
+    inputQuery.addEventListener('change', function() {
+        var value = inputQuery.value;
+        switch(value) {
+          case 'celsius':
+          resultQuery.value = 'fahrenheit';
+          break;
+          case 'fahrenheit':
+          resultQuery.value = 'celsius';
+          break;
+         }
+    })
+    resultQuery.addEventListener('change', function() {
+         var value = resultQuery.value;
+         switch(value) {
+          case 'celsius':
+          inputQuery.value = 'fahrenheit';
+          break;
+          case 'fahrenheit':
+          inputQuery.value = 'celsius';
+          break;
+         }
+    })
+    </script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+ 

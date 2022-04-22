@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                position: absolute;
+                left: 0%;
+                text-align: center;
+            }
+            .container {
+                justify-content: center;
+                align-items: center;
+                display: flex;
+                height: 100%;
+                text-align: center;
+            }
+            button {
+                width: 90px;
+                height: 60px;
+                border-radius: 10px;
+                font-size: 30px;
+                background-color: rgb(163, 163, 163);
+                color: honeydew;
+            } 
+            h2 {
+                color: rgb(253, 250, 250);
+                margin: 0 50px;
+                font-size: 45px;
+            } 
+            h1 {
+                font-size: 35px;
+                color: rgb(10, 8, 8);
+                text-align: center;
+                padding-left: 10%;
+            }
+            #rcorners1 {
+            border-radius: 25px;
+            background: #000000;
+            padding: 10px; 
+            margin:10%;
+            width: 400px;
+            height: 100px;  
+            }
+        </style>
+    </head>
+  
+    <body>
+        <h1>Increment and Decrement value</h1>
+  
+        <div class="container" id="rcorners1">
+            <button onclick="decrement()">-</button>
+            <h2 id="counting"></h2>
+            <button onclick="increment()">+</button>
+            
+        </div>
+        
+        <script>
+         
+            var data = 0;
+  
+            document.getElementById("counting").innerText = data;
+
+            function increment() {
+                data = data + 1;
+                document.getElementById("counting").innerText = data;
+            }
+            function decrement() {
+                data = data - 1;
+                document.getElementById("counting").innerText = data;
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,32 @@
+<html>
+<body>
+<style>
+   .converter-body{
+        width: 400px;
+        height: 250px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform:translate(-50%,-50%);
+        box-shadow:0px 0px 2px 1px #CACACA;
+    }
+</style>
+
+<div class ="converter-body">
+<ul id="myList1"><li>Coffee</li><li>Tea</li></ul>
+<ul id="myList2"><li>Water</li><li>Milk</li></ul>
+
+ <p> Click button to copy an item one list to another list.</p>
+
+<button onclick="myFunction()">Try it </button>
+</div>
+<script>
+function myFunction() {
+  const node = document.getElementById("myList2").lastChild;
+  const clone = node.cloneNode(true);
+  document.getElementById("myList1").appendChild(clone);
+}
+</script>
+
+</body>
+</html>

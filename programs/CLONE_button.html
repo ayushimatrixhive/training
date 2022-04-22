@@ -1,0 +1,87 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    </head>
+    <style>
+        .abc {
+			background-color: rgb(224, 222, 221);
+			color: black;
+			border: 1px solid black;
+			margin: 20px;
+			padding: 20px;
+			text-align:center;
+			font-size: large;
+			display:flex;
+        }
+        body {
+			position: absolute;
+			left: 0%;
+			text-align: center;
+			padding: 10px;
+			margin: 10px;
+        }
+        .clonedInput {
+			padding: 10px;
+			border-radius: 5px; 
+			background-color: rgb(29, 29, 29); 
+			margin-bottom: 10px;
+			margin:10px;
+        }
+        .clonedInput div {
+			margin: 5px;
+			display:flex;
+        }
+        button{
+			width: 80px;
+			height: 50px;
+			border-radius: 10px;
+			font-size: 25px;
+			background-color: rgb(163, 163, 163);
+			color: rgb(15, 15, 15);
+        }
+        .counting{
+			color: white;
+			margin: 0 30px;
+			font-size: 25px;
+        }
+    </style>
+</html>
+<body>
+    <div class="abc">
+        <div>
+            <input type='button' id='btn_add' value='New'>
+        </div>
+        <br>
+        <div class='clonedInput' >
+            <button  class="decrement" >-</button>
+            <span class="counting">0</span>
+            <button class="increment" >+</button>
+		</div>
+    </div>
+    <script>
+        
+           $(document).ready(function(){
+           $(".increment").live("click", function(){
+			    var value = ($(this).parent(".clonedInput").find(".counting")[0].innerHTML);
+				//console.log($(this).parent(".clonedInput").find(".counting")[0].innerHTML)
+                value++;
+                $(this).parent(".clonedInput").find(".counting")[0].innerHTML = value;
+           })
+		   $(".decrement").live("click", function(){
+			    var value = ($(this).parent(".clonedInput").find(".counting")[0].innerHTML);
+				//console.log($(this).parent(".clonedInput").find(".counting")[0].innerHTML)
+                value--;
+                $(this).parent(".clonedInput").find(".counting")[0].innerHTML = value;
+           })
+         })
+           $('#btn_add').click (function(){
+           $( ".clonedInput:last" ).clone().appendTo(".abc");
+		   var newadd = $(".clonedInput:last");
+           $(newadd).find("#counting")[0].innerHTML = 0;
+
+
+           });
+        
+    </script>
+</body>
+</html>

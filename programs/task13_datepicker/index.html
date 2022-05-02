@@ -1,0 +1,43 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="coustomwidgets.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" integrity="sha256-eTyxS0rkjpLEo16uXTS0uVCS4815lc40K2iVpWDvdSY=" crossorigin="anonymous"></script> 
+</head>
+<style>
+  .abc {
+    background-color: rgb(224, 222, 221);
+    color: black;
+    border: 1px solid black;
+    margin: 20px;
+    padding: 20px;
+    text-align:center;
+    font-size: large;
+    height:30%;
+  }
+</style>
+<body>
+  
+  <div id="xyz" class="abc">
+   <input type="text" class="datepicker" placeholder = "enter data">
+   <input type="text" class="datepicker" placeholder = "enter data">
+   <input type="text" class="datepicker" placeholder = "enter data"> 
+   <input type="text" class="datepicker" placeholder = "enter data">
+   <input type="text" class="datepicker" placeholder = "enter data"> 
+  
+  </div>
+
+  <br>
+
+ <script>       
+        $( function() {
+           $( ".datepicker" ).myCustomWidget();
+  
+           });
+ </script>
+ 
+</body>
+</html>

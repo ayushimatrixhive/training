@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- //<script src="https://code.jquery.com/jquery-3.6.0.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <script src="coustomwidgets.js"></script>
+    <!-- <script src="Widget.js"></script> -->
+</head>
+<body>
+<div class="abc1"><br>
+        <input type="text" id="btn_add1" class="count1">
+    </div>
+    <br/>
+    <div class="abc2"><br>
+        <input type="text" id="btn_add2" class="count2">
+    </div>
+    <br/>
+    <div class="abc3"><br>
+        <input type="text" id="btn_add3" class="count3">
+    </div>
+</body>
+<script>
+    $(document).ready(function () {
+            $("#btn_add1").myCustomWidget();
+            $("#btn_add2").myCustomWidget();
+            $("#btn_add3").myCustomWidget();
+          //  $("#btn_add4").myCustomWidget();
+    });
+</script>
+</html>

@@ -1,27 +1,30 @@
 <?php
 include "config.php";
+$obj= new Connection();
+$obj->enterdata();
+
 //please fix the buggy PHP code
-if (isset($_POST['submit'])) {
-    $fname =$_POST['fname'];
-    $lname =$_POST['lname'];
-    $dob = $_POST['dob'];
-    $email = $_POST['email'];
-    $age = $_POST['age'];
-    $country=$_POST['country'];
-    $phone_no = $_POST['phone_no'];
-    $source1 = $_POST['source1'];
-    $campaign = $_POST['campaign'];
+// if (isset($_POST['submit'])) {
+//     $fname =$_POST['fname'];
+//     $lname =$_POST['lname'];
+//     $dob = $_POST['dob'];
+//     $email = $_POST['email'];
+//     $age = $_POST['age'];
+//     $country=$_POST['country'];
+//     $phone_no = $_POST['phone_no'];
+//     $source1 = $_POST['source1'];
+//     $campaign = $_POST['campaign'];
 
-    $sql= " INSERT INTO `person_data`(`fname`, `lname`, `dob`, `age`,`email`,`country`, `phone_no`, `source1`,`campaign`) VALUES ('$fname', '$lname','$dob','$age','$email','$country','$phone_no','$source1','$campaign')";
-      $result = mysqli_query($conn,$sql);
-        if ($result == TRUE) { 
-           echo "<script>alert('data inserted')</script>";
-          }else{
-            echo "<script>alert('data not inserted')</script>";
-          }
+//     $sql= " INSERT INTO `person_data`(`fname`, `lname`, `dob`, `age`,`email`,`country`, `phone_no`, `source1`,`campaign`) VALUES ('$fname', '$lname','$dob','$age','$email','$country','$phone_no','$source1','$campaign')";
+//       $result = mysqli_query($conn,$sql);
+//         if ($result == TRUE) { 
+//            echo "<script>alert('data inserted')</script>";
+//           }else{
+//             echo "<script>alert('data not inserted')</script>";
+//           }
 
-   $conn->close(); 
-  }
+//    $conn->close(); 
+//   }
   ?>
 
 <!DOCTYPE html>
@@ -30,9 +33,9 @@ if (isset($_POST['submit'])) {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
-<script src="lib/jquery1.5.2.js"></script>
+<!-- <script src="lib/jquery1.5.2.js"></script>
 <script src="lib/jquery.validate.js"></script>
-<script src="lib/myjs.js"></script>
+<script src="lib/myjs.js"></script> -->
 
 <style>
      body {background-color: lightblue;},
@@ -79,9 +82,8 @@ if (isset($_POST['submit'])) {
     <br>
 
     Country:<br>
-    <input type="text" id='country' name='country' >
-     <br>
-     <select id="country1">
+    
+     <select id="country1" name='country' >
      <option value="">select country</option>
      <option value="INDIA">INDIA</option>
      <option value="USA">USA</option>
@@ -106,7 +108,7 @@ if (isset($_POST['submit'])) {
      <button type="submit" name='submit' value="submit" id="submitbtn" onclick="validate();" >Submit </button>
 
      <button type="reset" name="clear" value="clear" >Clear </button>
-
+     </form>
 
      <script type="text/javascript">
 
@@ -238,7 +240,7 @@ if (isset($_POST['submit'])) {
               }
 
      </script>
-      </form>
+   
   </div>
 </body>
 </html>

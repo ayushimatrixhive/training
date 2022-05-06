@@ -1,9 +1,9 @@
 var editData = function(id){
-    $('#table-container').load('update.php')
+    $('.modal-body').load('update.php')
      $.ajax({
          type: "GET",
-         url: "update.php",
-         data:{editId:id},
+         url: "viewpg.php",
+         data:{id:id},
          dataType: "html",
          success: function(data){
            var userData=JSON.parse(data);
@@ -21,7 +21,7 @@ var editData = function(id){
      });
  };
  $(document).on('submit','#updateForm',function(e){
-         e.preventDefault();
+          e.preventDefault();
           var id= $("input[name='id']").val();
           var fname= $("input[name='fname']").val();
           var lname= $("input[name='lname']").val();
@@ -34,9 +34,9 @@ var editData = function(id){
           var campaign= $("input[name='campaign']").val();
          $.ajax({
          method:"POST",
-         url: "update.php",
+         url: "viewpg.php",
          data:{
-           updateId:id,
+           id:id,
            fname:fname,
            lname:lname,
            email:email,
@@ -48,7 +48,7 @@ var editData = function(id){
            campaign:campaign
          },
          success: function(data){
-         $('#table-container').load('viewpg.php');
-         $('#msg').html(data);
+         $('.modal-body').load('viewpg.php');
+         $('.modal-body').html(data);
      }});
  });

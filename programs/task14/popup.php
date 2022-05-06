@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="container">
-  <!-- <h2>click to update form</h2>
+  <!-- <h2>click to update form</h2>-->
   <!-- Button to Open the Modal -->
   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
     Update Form

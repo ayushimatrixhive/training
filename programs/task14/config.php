@@ -48,9 +48,9 @@ class Connection
     }
     public function displayData()
         {
-            $query = "SELECT * FROM person_data";
-            $result = $this->conn->query($query);
-        if ($result->num_rows > 0) {
+             $query = "SELECT * FROM person_data";
+             $result = $this->conn->query($query);
+            if ($result->num_rows > 0) {
             $data = array();
             while ($row = $result->fetch_assoc()) {
                    $data[] = $row;
@@ -60,18 +60,47 @@ class Connection
              echo "No found records";
             }
         }
-        // Fetch single data for edit from customer table
-        public function displyaRecordById($id)
+       
+    public function displyaRecordById($id)
         {
-            $query = "SELECT * FROM person_data WHERE id = '$id'";
-            $result = $this->conn->query($query);
-        if ($result->num_rows > 0) {
+             $query = "SELECT * FROM person_data WHERE id = '$id'";
+             $result = $this->conn->query($query);
+            if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             return $row;
             }else{
             echo "Record not found";
             }
         }
+
+        public function updateRecord($id)
+        {
+           // $id = $_GET['id'];
+
+            if (isset($_POST['update'])) {
+                // echo $fname;  
+               // $id = $_POST['edit_id'];
+                $fname = $_POST['fname'];
+                $lname = $_POST['lname'];
+                $dob = $_POST['dob'];
+                $age = $_POST['age'];
+                $email = $_POST['email'];
+                $phone_no = $_POST['phone_no'];
+                $source1 = $_POST['source1'];
+                $campaign = $_POST['campaign'];
+                $country = $_POST['country'];
+
+                $mysql_query = mysqli_query($this->conn, "UPDATE person_data set fname = '$fname',lname= '$lname',dob='$dob',age = '$age', email = '$email',phone_no = '$phone_no',source1= '$source1',campaign = '$campaign', country = '$country' WHERE id = '$id'");
+
+                print_r($mysql_query);
+               }
+            if ($mysql_query == true) {
+                header("Location:viewpg.php");
+             } else {
+                echo " ";
+             }
+         }
+    
 
         public function deleteRecord($id)
         {

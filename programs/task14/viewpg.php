@@ -1,8 +1,7 @@
 <?php
-
+//include 'updatecode.php';
 include 'ajaxdata.php';
 include 'config.php';
-  include 'submit.php';
 $obj = new Connection();
 
 
@@ -11,12 +10,15 @@ $obj = new Connection();
 
 $uobj=new dataPopup();
 $uobj->dataupdate($id);    
+// $obj->updateRecord($_POST['id']);
 
 
 if(isset($_GET['id']) && !empty($_GET['id'])) {
     $id = $_GET['id'];
     $obj->deleteRecord($id);
 }
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -26,6 +28,7 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    
 </head>
    <body>
         <div class="container">
@@ -62,6 +65,7 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                               <td><?php echo $row['source1']; ?></td>
                               <td><?php echo $row['campaign']; ?></td>
                             <td>
+                            <input type="hidden" name="id_modal" id="id_modal" class="form-control-sm">
                             <a class="btn btn-danger" href="update.php?id=<?php echo $row['id']; ?>">edit</a>&nbsp;
                             <a class="btn btn-danger" href="viewpg.php?id=<?php echo $row['id']; ?>">Delete</a>&nbsp;
                             <button type="button" id="sendbtn" class="btn btn-primary editbtn" data-bs-toggle="modal"    data-bs-target="#myModal" >  popup </button>
@@ -81,7 +85,7 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                                       <div>
                                 <body>
                                 <h2> ENTER INFORMATION </h2>
-                                <form id="form1" action="viewpg.php" method="POST"  enctype="multipart/form-data">
+                                <form id="formdata1" action="updatecode.php" method="POST"  enctype="multipart/form-data">
                               
 
                                       <input type="hidden" name="edit_id" id="edit_id">
@@ -122,7 +126,7 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                                           
                                           <br>
                                           <br>
-                                        <button type="submit" name="updateform" value="update" id="updatebtn"  onclick="validate();" >Submit </button>
+                                        <button type="submit" name="updateform1" value="update" id="updatebtn"  onclick="validate();" > submit </button>
                                         <button type="reset" name="clear" value="clear" >Clear </button>
                                         </form>
 
@@ -145,7 +149,7 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                                                       success: function (data) {
                                                          console.log(data)
                                                           $.each(JSON.parse(data)  , function (key, value) {
-                                                               console.log(value['fname']);
+                                                             //  console.log(value['fname']);
                                                               $("#edit_id").val(value['id']);
                                                               $("#fname_id").val(value['fname']);
                                                               $("#lname_id").val(value['lname']);
@@ -159,17 +163,15 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                                                               $("#empviewmodel").modal('show')
                                                              //  console.log(empviewmodel)
                                                                   }
-                                                              });
-                        
-                                                           });
+                                                              });                        
+                                                           });                                             
                                                        });
                                                       
-
-
                                               </script>
+
                                               <script type="text/javascript">
                                                   $(document).ready(function() {
-                                                    let check = $("#form1").validate(
+                                                    let check = $("#formdata1").validate(
                                                         {
                                                           rules: {
                                                             fname: {

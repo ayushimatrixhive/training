@@ -8,11 +8,14 @@ $uobj=new dataPopup();
 $uobj->dataupdate($id);    
 // $obj->updateRecord($_POST['id']);
 
+$userobj = new Connection();
+$userobj->dataupdated($id);
 
 if(isset($_GET['id']) && !empty($_GET['id'])) {
     $id = $_GET['id'];
     $obj->deleteRecord($id);
 }
+
 ?>
 
 
@@ -22,35 +25,60 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
 <title>View Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
-    
+<style>
+    #live_search{
+        width:50%;}
+    #deletebtn{
+        margin:10px;
+    }
+
+   
+
+    </style>
+
 </head>
    <body>
-        <div class="container">
+        <div class="container" >
           <h2>Users Information</h2>
-         <table class="table">
+          <div class="col-md-6" >
+              <input type="text" name ="search" id="search" placeholder="search.." class="form-control">
+
+         
+           </div>
+<br>
+
+
+          <table class="table" id ="myTable" id="example" >
           <thead>
               <tr>
-                  <th>ID</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Email</th>
-                  <th>DOB</th>
-                  <th>AGE</th>
-                  <th>Phone_no</th>
-                  <th>Country</th>
-                  <th>Source1</th>
-                  <th>Campaign</th>
+                 <button type="button" id="selectAll" class="main">select</button>
+                 <span class="sub"></span>  <button id='deletebtn'>DELETE</button>
+                  <th scope="col">Select </button></th>
+                  <th scope="col">ID</th>
+                  <th scope="col">First Name</th>
+                  <th scope="col">Last Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">DOB</th>
+                  <th scope="col">AGE</th>
+                  <th scope="col">Phone_no</th>
+                  <th scope="col">Country</th>
+                  <th scope="col">Source1</th>
+                  <th scope="col">Campaign</th>
               </tr>
+              
           </thead>
                   <tbody>
                        <?php
+                         
                           $person = $obj->displayData();
                           foreach ($person as $row) {
                          ?>
                               <tr >
-                              <td class="user_id"><?php echo $row['id']; ?></td>
+                              <td><input type="checkbox"/></td>  
+                              <td  class="user_id"><?php echo $row['id']; ?></td>
                               <td><?php echo $row['fname']; ?></td>
                               <td><?php echo $row['lname']; ?></td>
                               <td><?php echo $row['email']; ?></td>
@@ -79,9 +107,11 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                                       <!-- Modal body -->
                                       <div class="modal-body">
                                       <div>
+                                          
                                 <body>
                                 <h2> ENTER INFORMATION </h2>
                                 <form id="formdata1" action="config.php" method="POST"  enctype="multipart/form-data">
+
                               
 
                                       <input type="hidden" name="edit_id" id="edit_id">
@@ -125,6 +155,10 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                                         <button type="submit" name="updateform1" value="update" id="updatebtn"  onclick="validate();" > submit </button>
                                         <button type="reset" name="clear" value="clear" >Clear </button>
                                         </form>
+                                        </div>
+                                        <script src="jquery/jquery.min.js"></script>
+                                        <script src="js/bootstrap.bundle.min.js"></script>
+                                        
 
                                         <script>
                                           $(document).ready(function () {
@@ -166,6 +200,85 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                                               </script>
 
                                               <script type="text/javascript">
+                                                  $(document).ready(function(){
+                                                      $('#search').keyup(function(){
+                                                          search_table($(this).val();
+                                                          )
+
+                                                      });
+                                                      function search_table(value){
+                                                          $('#myTable tr').each(function(){
+                                                              var found= 'false';
+                                                               if($(this).text().toLowerCase().indexof(value.toLowerCase())>=0)
+                                                              {
+                                                                  found='true';
+
+                                                              }
+                                                          });
+                                                          if(found=='true'){
+                                                              $(this).show();
+
+                                                          }
+                                                          else{
+                                                              $(this).hide();
+                                                          }
+                                                      });
+                                                    }
+                                                  });
+
+
+                                             </script>
+                                            
+
+                                              <script type="text/javascript">
+
+                                                    $(document).ready(function () {
+                                                    $('body').on('click', '#selectAll', function () {
+                                                        if ($(this).hasClass('allChecked')) {
+                                                            $('input[type="checkbox"]', '#example').prop('checked', false);
+                                                        } else {
+                                                        $('input[type="checkbox"]', '#example').prop('checked', true);
+                                                        }
+                                                        $(this).toggleClass('allChecked');
+                                                        })
+                                                    });
+                                                    $().ready(function () {
+                                                        $('body').on('click', '#deletebtn', function () {
+                                                                $("#example tr").each(function () {
+                                                                    var rowSelector = $(this);
+                                                                    if (rowSelector.find("input[type='checkbox']").prop('checked'))
+                                                                    {
+                                                                        rowSelector.remove();
+                                                                    }
+
+                                                                });
+                                                        });
+                                                    });
+
+                                                    $(document).ready(function () {
+                                                    $("#live_search").keyup(function(){
+                                                        var input = $(this).val();
+                                                        //alert(input);
+                                                        if(input != ""){
+                                                            $.ajax({
+                                                                 url:"livesearch.php",
+                                                                 method:"POST",
+                                                                 data:{input:input},
+
+                                                                 sucess:function(data){
+                                                                     console.log(data)
+                                                                     $("#searchresult").html(data);
+                                                                     $("#searchresult").css("display","block");
+                                                                 }
+
+                                                            });
+                                                        } else{
+                                                            $("#searchresult").css("display","none");
+                                                        }
+                                                    });
+                                                    });
+
+
                                                   $(document).ready(function() {
                                                     let check = $("#formdata1").validate(
                                                         {
@@ -296,6 +409,8 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                                            ?>
                                       </tbody>
                               </table>
-                   </div>
+                          
+                
+                
 </body>
 </html>

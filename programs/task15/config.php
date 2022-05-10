@@ -215,6 +215,6 @@ class Connection
             }
         }
     }
-        $userobj = new Connection();
-        $userobj->dataupdated($id);
+        // $userobj = new Connection();
+        // $userobj->dataupdated($id);
 ?>

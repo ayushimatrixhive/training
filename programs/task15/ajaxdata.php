@@ -60,7 +60,7 @@ class dataPopup
 
           //  print_r($mysql_query);
         if ($mysql_query == true) {
-            header("Location:viewpg.php");
+            header("Location:view.php");
         } else {
             echo "Data can't be updated";
         }

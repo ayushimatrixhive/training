@@ -2,6 +2,7 @@
 
 include 'ajaxdata.php';
 include 'config.php';
+//include 'ajax-live-search.php';
 $obj = new Connection();
 
 $uobj=new dataPopup();
@@ -31,8 +32,9 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
 <style>
     #live_search{
         width:50%;}
-    #deletebtn{
+    #delete-btn{
         margin:10px;
+       
     }
 
    
@@ -41,21 +43,43 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
 
 </head>
    <body>
+  
         <div class="container" >
           <h2>Users Information</h2>
-          <div class="col-md-6" >
-              <input type="text" name ="search" id="search" placeholder="search.." class="form-control">
+          <div id="header">
+               
+          <table id="main" cellspacing="0">
+            <tr>
+              <td id="header">
 
-         
+
+          <div id="search-bar" >
+              <input type="text" name ="search" id="search" placeholder="search.." class="form-control" autocomplete="off"> <br>
+            
            </div>
-<br>
+           <div id="sub-header"  class="btn btn-danger">
 
+                   <button id="delete-btn"> Delete </button>
+                </div>
+           <br>
+           <div>
+        
+  </div>
+  
+  </div>
+  </td>
+  </tr>
+<br>
+<tr>
+<td id="table-data"></td>   
+    <form id="add form">
 
           <table class="table" id ="myTable" id="example" >
           <thead>
               <tr>
-                 <button type="button" id="selectAll" class="main">select</button>
-                 <span class="sub"></span>  <button id='deletebtn'>DELETE</button>
+              
+                 <!-- <button type="button" id="selectAll" class="main">select</button>
+                 <span class="sub"></span>  <button id='deletebtn'>DELETE</button> -->
                   <th scope="col">Select </button></th>
                   <th scope="col">ID</th>
                   <th scope="col">First Name</th>
@@ -77,8 +101,9 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                           foreach ($person as $row) {
                          ?>
                               <tr >
+                               
                               <td><input type="checkbox"/></td>  
-                              <td  class="user_id"><?php echo $row['id']; ?></td>
+                              <td class="user_id"><?php echo $row['id']; ?></td>
                               <td><?php echo $row['fname']; ?></td>
                               <td><?php echo $row['lname']; ?></td>
                               <td><?php echo $row['email']; ?></td>
@@ -88,7 +113,9 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                               <td><?php echo $row['country']; ?></td>
                               <td><?php echo $row['source1']; ?></td>
                               <td><?php echo $row['campaign']; ?></td>
-                            <td>
+                             <td> 
+                         
+
                             <input type="hidden" name="id_modal" id="id_modal" class="form-control-sm">
                             <a class="btn btn-danger" href="update.php?id=<?php echo $row['id']; ?>">edit</a>&nbsp;
                             <a class="btn btn-danger" href="viewpg.php?id=<?php echo $row['id']; ?>">Delete</a>&nbsp;
@@ -154,10 +181,12 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                                           <br>
                                         <button type="submit" name="updateform1" value="update" id="updatebtn"  onclick="validate();" > submit </button>
                                         <button type="reset" name="clear" value="clear" >Clear </button>
+                                        
                                         </form>
                                         </div>
-                                        <script src="jquery/jquery.min.js"></script>
-                                        <script src="js/bootstrap.bundle.min.js"></script>
+
+                                        <!-- <script src="jquery/jquery.min.js"></script>
+                                        <script src="js/bootstrap.bundle.min.js"></script> -->
                                         
 
                                         <script>
@@ -199,84 +228,56 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                                                       
                                               </script>
 
-                                              <script type="text/javascript">
-                                                  $(document).ready(function(){
-                                                      $('#search').keyup(function(){
-                                                          search_table($(this).val();
-                                                          )
-
-                                                      });
-                                                      function search_table(value){
-                                                          $('#myTable tr').each(function(){
-                                                              var found= 'false';
-                                                               if($(this).text().toLowerCase().indexof(value.toLowerCase())>=0)
-                                                              {
-                                                                  found='true';
-
-                                                              }
-                                                          });
-                                                          if(found=='true'){
-                                                              $(this).show();
-
-                                                          }
-                                                          else{
-                                                              $(this).hide();
-                                                          }
-                                                      });
-                                                    }
-                                                  });
-
-
-                                             </script>
+                                            
                                             
 
                                               <script type="text/javascript">
 
-                                                    $(document).ready(function () {
-                                                    $('body').on('click', '#selectAll', function () {
-                                                        if ($(this).hasClass('allChecked')) {
-                                                            $('input[type="checkbox"]', '#example').prop('checked', false);
-                                                        } else {
-                                                        $('input[type="checkbox"]', '#example').prop('checked', true);
-                                                        }
-                                                        $(this).toggleClass('allChecked');
-                                                        })
-                                                    });
-                                                    $().ready(function () {
-                                                        $('body').on('click', '#deletebtn', function () {
-                                                                $("#example tr").each(function () {
-                                                                    var rowSelector = $(this);
-                                                                    if (rowSelector.find("input[type='checkbox']").prop('checked'))
-                                                                    {
-                                                                        rowSelector.remove();
-                                                                    }
+                                              //       // $(document).ready(function () {
+                                                    // $('body').on('click', '#selectAll', function () {
+                                                    //     if ($(this).hasClass('allChecked')) {
+                                                    //         $('input[type="checkbox"]', '#example').prop('checked', false);
+                                                    //     } else {
+                                                    //     $('input[type="checkbox"]', '#example').prop('checked', true);
+                                                    //     }
+                                                    //     $(this).toggleClass('allChecked');
+                                                    //     })
+                                                    // });
+                                                    // $().ready(function () {
+                                                    //     $('body').on('click', '#deletebtn', function () {
+                                                    //             $("#example tr").each(function () {
+                                                    //                 var rowSelector = $(this);
+                                                    //                 if (rowSelector.find("input[type='checkbox']").prop('checked'))
+                                                    //                 {
+                                                    //                     rowSelector.remove();
+                                                    //                 }
 
-                                                                });
-                                                        });
-                                                    });
+                                                    //             });
+                                                    //     });
+                                                    // });
 
-                                                    $(document).ready(function () {
-                                                    $("#live_search").keyup(function(){
-                                                        var input = $(this).val();
-                                                        //alert(input);
-                                                        if(input != ""){
-                                                            $.ajax({
-                                                                 url:"livesearch.php",
-                                                                 method:"POST",
-                                                                 data:{input:input},
+                                                    // $(document).ready(function () {
+                                                    // $("#live_search").keyup(function(){
+                                                    //     var input = $(this).val();
+                                                    //     //alert(input);
+                                                    //     if(input != ""){
+                                                    //         $.ajax({
+                                                    //              url:"livesearch.php",
+                                                    //              method:"POST",
+                                                    //              data:{input:input},
 
-                                                                 sucess:function(data){
-                                                                     console.log(data)
-                                                                     $("#searchresult").html(data);
-                                                                     $("#searchresult").css("display","block");
-                                                                 }
+                                                    //              sucess:function(data){
+                                                    //                  console.log(data)
+                                                    //                  $("#searchresult").html(data);
+                                                    //                  $("#searchresult").css("display","block");
+                                                    //              }
 
-                                                            });
-                                                        } else{
-                                                            $("#searchresult").css("display","none");
-                                                        }
-                                                    });
-                                                    });
+                                                    //         });
+                                                    //     } else{
+                                                    //         $("#searchresult").css("display","none");
+                                                    //     }
+                                                    // });
+                                                    // });
 
 
                                                   $(document).ready(function() {
@@ -402,6 +403,7 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                                                       </div>
                                                     </div>
                                             </div>
+  
                                         </td>
                                         </tr>
                                           <?php
@@ -412,5 +414,72 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                           
                 
                 
-</body>
+                                  </body>
+                                  <script type="text/javascript">
+                                  $(document).ready(function(){
+                                    //alert("hello");
+                                      $('#search').on("keyup",function(){
+                                        var search_term=$(this).val();
+
+                                        $.ajax({
+                                          url:"ajax-live-search.php",
+                                          type:"POST",
+                                          data :{search:search_term},
+                                          success : function(data){
+                                            console.log(data);
+                                            $("#table-data").html(data);
+
+                                          }
+
+                                        });
+                                      });
+                                    });
+                                    </script>
+                                  <script type="text/javascript">
+                                  $(document).ready(function(){
+                                    function loadData(){
+                                        $.ajax({
+                                            url:"ajax-live-search.php",
+                                            type:"POST",
+                                            success : function (data){
+                                                $("#table-data").html(data);
+                                            }
+                                        })
+                                    }
+                                    loadData();
+
+                                    $("#delete-btn").on("click",function(){
+                                      var id=[];
+
+                                      $(":checkbox:checked").each(function(key){
+                                          id[key] = $(this).val();
+
+                                      });
+                                      console.log(id);
+                                      if(id.length === 0){
+                                          alert("PLEASE! select checkbox.");
+                                      } else {
+                                          if(alert("do you really want to delete this record?")){
+                                              // console.log(id);
+                                          $.ajax({
+                                              url:"delete-data.php",
+                                              type:"POST",
+                                              data :{id:id},
+                                              success: function(data){
+                                                //  console.log(data);
+                                                if(data==1){
+                                                    $("#success-message").html("data delete successfully.").slideDown();
+                                                    $("#error-message").slideUP();
+                                                }else{
+                                                  $("#error-message").html("data can't delete ").slideDown();
+                                                  $("#success-message").slideUP();
+                                                }
+                                              }
+                                          });
+                                          }
+                                        
+                                      }
+                                  });
+                                  });                                   
+                                  </script>
 </html>

@@ -119,7 +119,7 @@ class Connection
             $query = "DELETE FROM person_data WHERE id = '$id'";
             $sql = $this->conn->query($query);
              if ($sql==true) {
-            header("Location:viewpg.php");
+            header("Location:view.php");
              }else{
                echo "Record does not delete try again";
             }

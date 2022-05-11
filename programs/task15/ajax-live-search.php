@@ -4,7 +4,7 @@ $search_value =$_POST["search"];
 //print_r($search_value);
 $conn = mysqli_connect("localhost","root1","root1","participant") OR die("Connection failed");
 
-$sql="SELECT * FROM person_data WHERE fname LIKE '%{$search_value}%' OR lname LIKE '%{$search_value}%' OR phone_no LIKE '%{$search_value}%'";
+$sql="SELECT * FROM person_data WHERE fname LIKE '%{$search_value}%' OR lname LIKE '%{$search_value}%' OR dob LIKE '%{$search_value}%' OR phone_no LIKE '%{$search_value}%'OR email LIKE '%{$search_value}%'OR  source1 LIKE '%{$search_value}%' OR age LIKE '%{$search_value}%'OR campaign LIKE '%{$search_value}%' LIMIT 0,10";
 $output="";
 $result = mysqli_query($conn , $sql) or die("sql query failed");
 

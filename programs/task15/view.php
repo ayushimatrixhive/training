@@ -44,6 +44,17 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
               <input type="text" name ="search" id="search" placeholder="search.." class="form-control" autocomplete="off"> <br>
             
            </div>
+           <form action="#">
+      <label for="lang">select entry</label>
+      <select name="select" id="select">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="all">all</option>
+        
+      </select>
+      <input type="submit" value="Submit" />
+</form>
            <div id="header">
                <div id="sub-header">
                    <button id="delete-btn"  class="btn btn-danger"> Delete </button>

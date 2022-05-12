@@ -10,9 +10,7 @@ $obj->updateRecord($_GET['id']);
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
             <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
-            <script src="lib/jquery1.5.2.js"></script>
-            <script src="lib/jquery.validate.js"></script>
-            <script src="lib/myjs.js"></script>
+        
             <style>
                 body {background-color: lightblue;},
                 div { border-radius: 5px; background-color: #F2F2F2; padding: 20px;}

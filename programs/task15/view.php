@@ -11,6 +11,8 @@ $uobj->dataupdate($id);
 $userobj = new Connection();
 $userobj->dataupdated($id);
 
+
+
 if(isset($_GET['id']) && !empty($_GET['id'])) {
     $id = $_GET['id'];
     $obj->deleteRecord($id);
@@ -44,33 +46,70 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
               <input type="text" name ="search" id="search" placeholder="search.." class="form-control" autocomplete="off"> <br>
             
            </div>
-           <form action="#">
+<form action="#">
+          <div class ="dataTables_length" id="example_length">
+
       <label for="lang">select entry</label>
-      <select name="select" id="select">
+      <select name="limit" id="maxRows">
+      <option value="0">SELECT</option>
         <option value="5">5</option>
         <option value="10">10</option>
         <option value="15">15</option>
-        <option value="all">all</option>
-        
+        <option value="20">20</option>
+        <option value="all">all</option>  
       </select>
-      <input type="submit" value="Submit" />
+      <!-- <input type="submit" name="submit_value" value="Submit" /> -->
+      <div id="location"></div>
 </form>
+           
            <div id="header">
                <div id="sub-header">
-                   <button id="delete-btn"  class="btn btn-danger"> Delete </button>
+                   <button id="delete-btn" name="delete_data" class="btn btn-danger"> Delete </button>
                 </div>
-            <div id="table-data"></div>
-          
-        </div>
-       
 
-           <div id="error-message"></div>
-           <div id="success-message"></div>
+          <div>
+          <table id="mytable" >
+            
+            <div id="table-data"></div>
+          </table>
+          </div>
+          
+       
+        <div class="pagination-container">
+          <nav>
+            <ul class ="pagination"><ul>
+          </nav>
+        </div>
+
+       
+        <div id="error-message"></div>
+        <div id="success-message"></div>
+
+       
 
 </div>  
         
   
 </body>
+
+<script>    
+    $('#example_length').on('change', function() {
+      // $('#location').text(this.value);
+      var limit_value=$(this).val();
+
+      $.ajax({
+        url:"limit_value.php",
+        type:"POST",
+        data :{id: limit_value},
+        success : function(result){
+          console.log(result);
+          $("#location").html(result);
+        }
+      });
+    }); 
+    </script>
+
+
 <script type="text/javascript">
 $(document).ready(function(){
   //alert("hello");
@@ -82,7 +121,7 @@ $(document).ready(function(){
         type:"POST",
         data :{search:search_term},
         success : function(data){
-          console.log(data);
+          //console.log(data);
           $("#table-data").html(data);
 
         }
@@ -91,6 +130,7 @@ $(document).ready(function(){
     });
   });
 </script>
+
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -117,13 +157,13 @@ $("#delete-btn").on("click",function(){
         alert("PLEASE! select checkbox.");
     } else {
         if(alert("do you really want to delete this record?")){
-             // console.log(id);
+              console.log(id);
         $.ajax({
             url:"delete-data.php",
             type:"POST",
             data :{id:id},
             success: function(data){
-              //  console.log(data);
+              // console.log(data);
               if(data==1){
                   $("#success-message").html("data delete successfully.").slideDown();
                   $("#error-message").slideUP();

@@ -34,8 +34,8 @@
 //       }
 
      
-$student_id =$_POST['id'];
-$str = implode($student_id,",");
+$delete_id =$_POST['delete_data'];
+$str = implode($delete_id,",");
 echo $str;
 
 $conn = mysqli_connect("localhost","root1","root1", "participant") or die ("connection failed");

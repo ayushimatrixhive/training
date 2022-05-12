@@ -107,7 +107,7 @@ class Connection
                 print_r($mysql_query);
                }
             if ($mysql_query == true) {
-                header("Location:viewpg.php");
+                header("Location:view.php");
              } else {
                 echo " ";
              }
@@ -173,7 +173,7 @@ class Connection
                      WHERE id = '$id'");
               //  print_r($mysql_query);
             if ($mysql_query == true) {
-                header("Location:viewpg.php");
+                header("Location:view.php");
             } else {
                 echo "Data can't be updated";
             }
@@ -208,7 +208,7 @@ class Connection
                         WHERE id = '$id'");
                 //  print_r($mysql_query);
                 if ($mysql_query == true) {
-                    header("Location:viewpg.php");
+                    header("Location:view.php");
                 } else {
                     echo "Data can't be updated";
                 }

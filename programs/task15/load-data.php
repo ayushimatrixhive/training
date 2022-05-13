@@ -1,4 +1,5 @@
 <?php
+$search_value =$_POST["search"];
 
 $conn = mysqli_connect("localhost","root1","root1","participant") OR die("Connection failed");
 

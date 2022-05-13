@@ -1,24 +1,4 @@
-<?php
 
-include 'ajaxdata.php';
-include 'config.php';
-$obj = new Connection();
-
-$uobj=new dataPopup();
-$uobj->dataupdate($id);    
-// $obj->updateRecord($_POST['id']);
-
-$userobj = new Connection();
-$userobj->dataupdated($id);
-
-
-
-if(isset($_GET['id']) && !empty($_GET['id'])) {
-    $id = $_GET['id'];
-    $obj->deleteRecord($id);
-}
-
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,8 +27,8 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
             
            </div>
 <form action="#">
-          <div class ="dataTables_length" id="example_length">
-
+         
+<div class ="dataTables_length" id="example_length">
       <label for="lang">select entry</label>
       <select name="limit" id="maxRows">
       <option value="0">SELECT</option>
@@ -58,14 +38,21 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
         <option value="20">20</option>
         <option value="all">all</option>  
       </select>
+  </div>
+
       <!-- <input type="submit" name="submit_value" value="Submit" /> -->
       <div id="location"></div>
 </form>
            
            <div id="header">
                <div id="sub-header">
+               <div class="row">
+               <div class="col-md-2 well">
+	               	<span class="rows_selected" id="select_count"></span>
                    <button id="delete-btn" name="delete_data" class="btn btn-danger"> Delete </button>
                 </div>
+  </div>
+  </div>
 
           <div>
           <table id="mytable" >
@@ -75,18 +62,19 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
           </div>
           
        
-        <div class="pagination-container">
+
+        <!-- <div id="pagination" class="pagination-container">
+          <a class="active" id="1" href="">1</a>
+          <a  id="2" href="">2</a>
+          <a id="3" href="">3</a>
           <nav>
-            <ul class ="pagination"><ul>
+            <ul class ="pagination admin-pagination"><ul>
           </nav>
-        </div>
+        </div> -->
 
        
         <div id="error-message"></div>
         <div id="success-message"></div>
-
-       
-
 </div>  
         
   
@@ -96,14 +84,14 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
     $('#example_length').on('change', function() {
       // $('#location').text(this.value);
       var limit_value=$(this).val();
-
+     console.log(limit_value);
       $.ajax({
         url:"limit_value.php",
         type:"POST",
-        data :{id: limit_value},
-        success : function(result){
-          console.log(result);
-          $("#location").html(result);
+        data :{ limit:limit_value},
+        success : function(data){
+          console.log(data);
+          $("#location").html(data);
         }
       });
     }); 
@@ -136,9 +124,10 @@ $(document).ready(function(){
 $(document).ready(function(){
   function loadData(){
       $.ajax({
-          url:"ajax-live-search.php",
+          url:"load-data.php",
           type:"POST",
           success : function (data){
+           // console.log(data);
               $("#table-data").html(data);
           }
       })
@@ -146,38 +135,62 @@ $(document).ready(function(){
   loadData();
 
 $("#delete-btn").on("click",function(){
+ 
     var id=[];
+    // console.log(id);
 
     $(":checkbox:checked").each(function(key){
         id[key] = $(this).val();
 
     });
-     console.log(id);
+      // console.log(id);
     if(id.length === 0){
         alert("PLEASE! select checkbox.");
     } else {
-        if(alert("do you really want to delete this record?")){
-              console.log(id);
+      if(confirm ("do you really want delete these records?")){
         $.ajax({
             url:"delete-data.php",
             type:"POST",
-            data :{id:id},
+            data : {id :id},
             success: function(data){
-              // console.log(data);
-              if(data==1){
+              console.log(data);
+              if(data == true){
                   $("#success-message").html("data delete successfully.").slideDown();
-                  $("#error-message").slideUP();
+                  $("#error-message").slideUp();
               }else{
                 $("#error-message").html("data can't delete ").slideDown();
-                $("#success-message").slideUP();
+                $("#success-message").slideUp();
               }
             }
         });
-        }
+      }   
        
     }
 });
 });
+</script>
+
+<!-- <script type="text/javascript">
+  $(document).ready(function(){
+    function loadTable(page){
+      $.ajax({
+        url:"ajax-pagination.php",
+        type: "POST",
+        data:{page_no: page},
+        success : function(data){
+          $('#table-data').html(data);
+        }
+      });
+    }
+    loadTable();
+
+     $(document).on("click","#pagination a",function(e){
+       e.prevemtDefault();
+       var page_id=$(this).attr("id");
+     })
+  });
+ 
+ -->
 
 </script>
 </html>

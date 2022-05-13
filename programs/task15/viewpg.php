@@ -102,7 +102,7 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                          ?>
                               <tr >
                                
-                              <td><input type="checkbox"/></td>  
+                              <td><input type="checkbox" class="emp_checkbox" data-emp-id="<?php echo $row["id"]; ?>"></td>  
                               <td class="user_id"><?php echo $row['id']; ?></td>
                               <td><?php echo $row['fname']; ?></td>
                               <td><?php echo $row['lname']; ?></td>
@@ -113,13 +113,14 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                               <td><?php echo $row['country']; ?></td>
                               <td><?php echo $row['source1']; ?></td>
                               <td><?php echo $row['campaign']; ?></td>
+                             
                              <td> 
                          
 
                             <input type="hidden" name="id_modal" id="id_modal" class="form-control-sm">
                             <a class="btn btn-danger" href="update.php?id=<?php echo $row['id']; ?>">edit</a>&nbsp;
                             <a class="btn btn-danger" href="viewpg.php?id=<?php echo $row['id']; ?>">Delete</a>&nbsp;
-                            <button type="button" id="sendbtn" class="btn btn-primary editbtn" data-bs-toggle="modal"    data-bs-target="#myModal" >  popup </button>
+                            <!-- <button type="button" id="sendbtn" class="btn btn-primary editbtn" data-bs-toggle="modal"    data-bs-target="#myModal" >  popup </button>
                             <!-- <button type="button" id="sendbtn" class="btn btn-primary popup" >  popup </button> -->
                                 </div>
                                 <!-- The Modal -->
@@ -410,76 +411,113 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                                             }
                                            ?>
                                       </tbody>
-                              </table>
+                              </table> -->
                           
                 
                 
                                   </body>
-                                  <script type="text/javascript">
-                                  $(document).ready(function(){
-                                    //alert("hello");
-                                      $('#search').on("keyup",function(){
-                                        var search_term=$(this).val();
+                                  <script>    
+                                    $('#example_length').on('change', function() {
+                                      // $('#location').text(this.value);
+                                      var limit_value=$(this).val();
+                                    console.log(limit_value);
+                                      $.ajax({
+                                        url:"limit_value.php",
+                                        type:"POST",
+                                        data :{ limit:limit_value},
+                                        success : function(data){
+                                          console.log(data);
+                                          $("#location").html(data);
+                                        }
+                                      });
+                                    }); 
+                                    </script>
 
-                                        $.ajax({
-                                          url:"ajax-live-search.php",
-                                          type:"POST",
-                                          data :{search:search_term},
-                                          success : function(data){
-                                            console.log(data);
-                                            $("#table-data").html(data);
 
-                                          }
+                                <script type="text/javascript">
+                                $(document).ready(function(){
+                                  //alert("hello");
+                                    $('#search').on("keyup",function(){
+                                      var search_term=$(this).val();
 
-                                        });
+                                      $.ajax({
+                                        url:"ajax-live-search.php",
+                                        type:"POST",
+                                        data :{search:search_term},
+                                        success : function(data){
+                                          //console.log(data);
+                                          $("#table-data").html(data);
+
+                                        }
+
                                       });
                                     });
-                                    </script>
-                                  <script type="text/javascript">
-                                  $(document).ready(function(){
-                                    function loadData(){
-                                        $.ajax({
-                                            url:"ajax-live-search.php",
-                                            type:"POST",
-                                            success : function (data){
-                                                $("#table-data").html(data);
-                                            }
-                                        })
-                                    }
-                                    loadData();
-
-                                    $("#delete-btn").on("click",function(){
-                                      var id=[];
-
-                                      $(":checkbox:checked").each(function(key){
-                                          id[key] = $(this).val();
-
-                                      });
-                                      console.log(id);
-                                      if(id.length === 0){
-                                          alert("PLEASE! select checkbox.");
-                                      } else {
-                                          if(alert("do you really want to delete this record?")){
-                                              // console.log(id);
-                                          $.ajax({
-                                              url:"delete-data.php",
-                                              type:"POST",
-                                              data :{id:id},
-                                              success: function(data){
-                                                //  console.log(data);
-                                                if(data==1){
-                                                    $("#success-message").html("data delete successfully.").slideDown();
-                                                    $("#error-message").slideUP();
-                                                }else{
-                                                  $("#error-message").html("data can't delete ").slideDown();
-                                                  $("#success-message").slideUP();
-                                                }
-                                              }
-                                          });
-                                          }
-                                        
-                                      }
                                   });
-                                  });                                   
-                                  </script>
+                                </script>
+
+
+                                <script type="text/javascript">
+                                $(document).ready(function(){
+                                  function loadData(){
+                                      $.ajax({
+                                          url:"load-data.php",
+                                          type:"POST",
+                                          success : function (data){
+                                          // console.log(data);
+                                              $("#table-data").html(data);
+                                          }
+                                      })
+                                  }
+                                  loadData();
+
+                                $("#delete-btn").on("click",function(){
+                                
+                                    var id=[];
+                                    // console.log(id);
+
+                                    $(":checkbox:checked").each(function(key){
+                                        id[key] = $(this).val();
+
+                                    });
+                                      // console.log(id);
+                                    if(id.length === 0){
+                                        alert("PLEASE! select checkbox.");
+                                    } else {
+                                      if(confirm ("do you really want delete these records?")){
+                                        $.ajax({
+                                            url:"delete-data.php",
+                                            type:"POST",
+                                            data : {id :id},
+                                            success: function(data){
+                                              console.log(data);
+                                              if(data == true){
+                                                  $("#success-message").html("data delete successfully.").slideDown();
+                                                  $("#error-message").slideUp();
+                                              }else{
+                                                $("#error-message").html("data can't delete ").slideDown();
+                                                $("#success-message").slideUp();
+                                              }
+                                            }
+                                        });
+                                      }   
+                                      
+                                    }
+                                });
+                                });
+
+
+                                </script>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+

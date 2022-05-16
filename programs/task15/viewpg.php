@@ -120,8 +120,8 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                             <input type="hidden" name="id_modal" id="id_modal" class="form-control-sm">
                             <a class="btn btn-danger" href="update.php?id=<?php echo $row['id']; ?>">edit</a>&nbsp;
                             <a class="btn btn-danger" href="viewpg.php?id=<?php echo $row['id']; ?>">Delete</a>&nbsp;
-                            <!-- <button type="button" id="sendbtn" class="btn btn-primary editbtn" data-bs-toggle="modal"    data-bs-target="#myModal" >  popup </button>
-                            <!-- <button type="button" id="sendbtn" class="btn btn-primary popup" >  popup </button> -->
+                            <button type="button" id="sendbtn" class="btn btn-primary editbtn" data-bs-toggle="modal"    data-bs-target="#myModal" >  popup </button>
+                            <!-- <button type="button" id="sendbtn" class="btn btn-primary popup" >  popup </button>
                                 </div>
                                 <!-- The Modal -->
                                 <div class="modal" id="myModal" id="empviewmodel">
@@ -427,7 +427,7 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                                         data :{ limit:limit_value},
                                         success : function(data){
                                           console.log(data);
-                                          $("#location").html(data);
+                                          $("#table-data").html(data);
                                         }
                                       });
                                     }); 

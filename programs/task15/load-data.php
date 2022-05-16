@@ -1,5 +1,4 @@
 <?php
-$search_value =$_POST["search"];
 
 $conn = mysqli_connect("localhost","root1","root1","participant") OR die("Connection failed");
 
@@ -21,6 +20,9 @@ if(mysqli_num_rows($result)>0)
                     <th width='150px'> EMAIL </th>
                     <th width='200px'> SOURCE1 </th>
                     <th width='350px'> CAMPAIGN </th>  
+                    <th width='150px'> EDIT </th>
+                    <th width='150px'> DELETE </th>
+
                 </tr>";
         while($row = mysqli_fetch_array($result))
         {
@@ -36,6 +38,8 @@ if(mysqli_num_rows($result)>0)
                 <td>{$row['phone_no']}</td>
                 <td>{$row['source1']}</td>
                 <td>{$row['campaign']}</td>
+                <td><button class='edit-btn' data-eid='{$row["id"]}'>Edit</button>
+                <td><button class='delete-btn' data-id='{$row["id"]}'>Delete</button>
                 <td>
             </tr>";
         }
@@ -46,7 +50,6 @@ if(mysqli_num_rows($result)>0)
             echo 'data not found';
             
         }
-
 
 if ($result == true) {
     header("Location:view.php");

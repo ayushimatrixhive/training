@@ -13,7 +13,66 @@
         width:50%;}
     #deletebtn{
         margin:10px;
+      }
+    #modal{
+          background:rgba(0,0,0,0.7);
+          position:absolute;
+          left:20px;
+          top:0;
+          width:100%;
+          height:150%;
+          z-index:100;
+          display:none;
+        }
+    #modal-form{
+      background:#fff;
+      position:relative;
+      left:calc(50%-20%);
+      top:20%;
+      width:50%;
+      padding:100px;
+      border-radius:4px;
+      display:center;
+
     }
+    #modal-form h2{
+      margin: 0 0 15px;
+      padding-bottom:10px;
+      border-bottom : 1px solid #000;
+    }
+
+    .edit-btn{
+      background-color:green;
+      color:white;
+      border:0;
+      padding:4px 10px;
+      border-radius:3px;
+      cursor:pointer;
+
+    }
+    .delete-btn{
+      background-color:red;
+      color:white;
+      border:0;
+      padding:4px 10px;
+      border-radius:3px;
+      cursor:pointer;
+
+    }
+    #close-btn{
+      background-color:red;
+      color:white;
+      width:30px;
+      height:30px;
+      line-height:30px;
+      text-align:center;
+      border-radius:50%;
+      position:absolute;
+      top:-15px;
+      right:-15px;
+      cursor:pointer;
+    }
+   
     </style>
 
 </head>
@@ -75,12 +134,150 @@
        
         <div id="error-message"></div>
         <div id="success-message"></div>
+        <div>
+
+        <div id="modal">
+          <div id="modal-form">
+          <form id="formdata1" action="view.php" method="POST"  enctype="multipart/form-data">
+            <h2>EDIT FORM</h2>
+            <table cellpadding="5px" width="100%">
+              <tr>
+                <input type="hidden" name="edit-id" id="edit-id">
+                <td> First Name </td>
+                <td><input type="text" name="fname" id="edit-fname" value='' ></td>
+              </tr>
+              <tr>
+                <td> Last Name </td>
+                <td><input type="text" name="lname" id="edit-lname" value=''></td>
+              </tr>
+              <tr>
+                <td> DOB </td>
+                <td><input type="date" name="dob" id="edit-dob" max="<?php echo date("Y-m-d");?>" onchange="getAge();"  value=''></td>
+              </tr>
+              <tr>
+                <td> AGE </td>
+                <td><input type="text" name="age" id="edit-age" value=''></td>
+              </tr>
+              <tr>
+                <td> EMAIL </td>
+                <td><input type="text"  name="email" id="edit-email" value=''></td>
+              </tr>
+              <tr>
+                <td> PHONE_NO </td>
+                <td><input type="text"  name="phone_no" id="edit-phone_no" value=''></td>
+              </tr>
+              <tr>
+                <td> SOURCE1 </td>
+                <td><input type="text" name="source1"  id="edit-source1" value=''></td>
+              </tr>
+              <tr>
+                <td> CAMPAIGN </td>
+                <td><input type="text"  name="campaign" id="edit-campaign" value=''></td>
+              </tr>
+              <tr>
+                <td> SUBMIT </td>
+                <td><input type="submit" name="updateform1" id="edit-submit"  value="submit"></td>
+              </tr>
+             </table>
+            <div id="close-btn"> x </div>
+           </div>
+        </div>
 </div>  
-        
-  
 </body>
 
-<script>    
+
+
+
+<script>
+  //delete form
+  $(document).on("click",".delete-btn",function(){
+    if(confirm("do you really want to delete this record?")){
+     var studentId = $(this).data("id");
+     var element = this;
+    // alert(studentId);
+
+    $.ajax({
+      url:"ajax-delete.php",
+      type:"POST",
+      data:{id:studentId},
+      success: function(data){
+       if(data==1){
+         $(element).closet("tr").fadeOut();
+
+       }else{
+        $("#error-message").html("data can't delete ").slideDown();
+        $("#success-message").slideUp();
+       
+       }
+      
+      }
+    });
+  }
+});
+
+
+//edit form
+
+  $(document).on("click",".edit-btn",function(){
+    $("#modal").show();
+    var studentId = $(this).data("eid");
+   // alert(studentId );
+    $. ajax({
+      url:"load-update-form.php",
+      type:"POST",
+      data:{id:studentId},
+      success: function(data){
+        $("#model-form table").html(data);
+        
+      }
+    });
+ });
+  $("#close-btn").on("click",function(){
+     $("#modal").hide();
+  });
+
+//save update form
+  $(document).on("click","#edit-submit", function(){
+    var stuId =$("#edit-id").val();
+    var fname =$("#edit-fname").val();
+    var lname =$("#edit-lname").val();
+    var dob =$("#edit-dob").val();
+    var age =$("#edit-age").val();
+    var email =$("#edit-email").val();
+    var phone_no =$("#edit-phone_no").val();
+    var source1 =$("#edit-source1").val();
+    var campaign =$("#edit-campaign").val();
+
+    $.ajax({
+      url:"ajax-update-form.php",
+      type:"POST",
+      data:{
+        id: stuId,
+        fname:fname,
+        lname:lname,
+        dob:dob,
+        age:age,
+        email:email,
+        phone_no:phone_no,
+        source1:source1,
+        campaign:campaign },
+        success: function(data)
+       
+        {
+        //  console.log(data);
+          if(data==1){
+            $("#model").hide();
+            loadData();
+          }
+         
+        }
+    });
+  });
+
+
+
+  //length limit value 
+
     $('#example_length').on('change', function() {
       // $('#location').text(this.value);
       var limit_value=$(this).val();
@@ -90,15 +287,18 @@
         type:"POST",
         data :{ limit:limit_value},
         success : function(data){
-          console.log(data);
-          $("#location").html(data);
+         // console.log(data);
+          $("#table-data").html(data);
         }
       });
     }); 
-    </script>
+ 
 
 
-<script type="text/javascript">
+
+// search bar 
+
+
 $(document).ready(function(){
   //alert("hello");
     $('#search').on("keyup",function(){
@@ -117,10 +317,10 @@ $(document).ready(function(){
       });
     });
   });
-</script>
 
 
-<script type="text/javascript">
+//multiple-record delete
+
 $(document).ready(function(){
   function loadData(){
       $.ajax({
@@ -168,29 +368,142 @@ $("#delete-btn").on("click",function(){
     }
 });
 });
-</script>
 
-<!-- <script type="text/javascript">
-  $(document).ready(function(){
-    function loadTable(page){
-      $.ajax({
-        url:"ajax-pagination.php",
-        type: "POST",
-        data:{page_no: page},
-        success : function(data){
-          $('#table-data').html(data);
-        }
-      });
-    }
-    loadTable();
+$(document).ready(function() {
+let check = $("#formdata1").validate(
+{
+  rules: {
+    fname: {
+          required: true,
+          fnamecheck: true,
+          },
+    lname: {
+          required: true,
+          lnamecheck: true,
+          },
+    email:{
+        required: true,
+        emailcheck: true,
+      },
+    phone_no: {
+        required: true,
+        numcheck: true,
+        minlength: 10,
+        maxlength: 10,
+          },
+    source1: {
+        required: true,
+        sourcecheck: true,
+            },
+    campaign: {
+        required: true,
+        campaigncheck: true,
+            },
+          },
 
-     $(document).on("click","#pagination a",function(e){
-       e.prevemtDefault();
-       var page_id=$(this).attr("id");
-     })
-  });
- 
- -->
+    messages: {
+        fname: {
+            required: "<br> Enter your first name",
+            fnamecheck: "<br>Name can only accept charectrers",
+        },
+        lname: {
+            required: "<br> Enter your  last name",
+            lnamecheck: "<br>Name can only accept charectrers",
+        },
+        phone_no: {
+            numcheck: "<br>enter number only",
+            required: "<br>Enter phone no",
+            minlength: "<br>The phone number should be 10 digits",
+            maxlength: "<br>Don't enter more than 10 numbers",
+        },
+        email:{
+          required: "<br>Enter email address",
+          emailcheck: "<br>enter valid email address",
+        },
+        source1: {
+            required: "<br>Enter your source value",
+            sourcecheck: "<br>source can accept charectrers ,space, number values  values",
+            },
+        campaign: {
+            required: "<br>Enter your campaign value",
+            campaigncheck: "<br>campaign can accept charectrers ,space, number values ",
+            },
+        country: {
+            required: "<br>Enter your country value",
+            countrycheck: "<br>select option menu",
+            },
+          },
+        });
+          $.validator.addMethod("numcheck",
+            function(value, element) {
+                return /^\+?[1-9][0-9]{7,14}$/.test(value);
+            });
+          $.validator.addMethod("fnamecheck",
+            function(value, element) {
+              return /^[a-zA-Z\s]*$/;i.test(value)
+            });
+          $.validator.addMethod("lnamecheck",
+            function(value, element) {
+              return /^[a-zA-Z\s]*$/;i.test(value)
+            });
+          $.validator.addMethod("emailcheck",
+            function(value, element) {
+                return /^[^@]+@[^@]+\.[a-zA-Z]{2,6}/.test(value);
+            });
+          $.validator.addMethod("sourcecheck",
+            function(value, element) {
+              return /^[0-9\sa-zA-Z_]+$/.test(value);
+            });
+          $.validator.addMethod("campaigncheck",
+            function(value, element) {
+                return /^[0-9\sa-zA-Z_]+$/.test(value);
+            });
+            });
+          function getAge() {
+              var dobValue = document.getElementById('dob').value;
+              if (dobValue === "") {
+                document.getElementById('dobError').innerHTML = "<br>Please Select DOB";
+              } else {
+                  var today = new Date();
+                  var birthDate = new Date(dobValue);
+                  var age = today.getFullYear() - birthDate.getFullYear();
+                  var m = today.getMonth() - birthDate.getMonth();
+                  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                      age--;
+                  }
+                  if (age > 18) {
+                    document.getElementById('dobError').innerHTML = "";
+                    document.getElementById('ageError').innerHTML = "";
+                    document.getElementById('age').value=  age;
+                  } else {
+                    document.getElementById('dobError').innerHTML = "<br>Please! Select Valid DOB";
+                    document.getElementById('ageError').innerHTML = "<br>Sorry! you are not eligible. Your age is " + age;
+                  }
+              }
+            }
+  
+
+
+
+
+  // $(document).ready(function(){
+  //   function loadTable(page){
+  //     $.ajax({
+  //       url:"ajax-pagination.php",
+  //       type: "POST",
+  //       data:{page_no: page},
+  //       success : function(data){
+  //         $('#table-data').html(data);
+  //       }
+  //     });
+  //   }
+  //   loadTable();
+
+  //    $(document).on("click","#pagination a",function(e){
+  //      e.prevemtDefault();
+  //      var page_id=$(this).attr("id");
+  //    })
+  // });
 
 </script>
 </html>

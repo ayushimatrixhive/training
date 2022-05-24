@@ -1,9 +1,8 @@
 
 <?php
 
-$limit=$_POST["limit"];
+//$limit=$_POST["limit"];
 $limit = 15;
-
 //print_r($limit_value);
 
 $conn = mysqli_connect("localhost","root1","root1","participant") OR die("Connection failed");
@@ -16,7 +15,7 @@ $result = mysqli_query($conn , $query)  OR die("sql query failed");
 ///print_r($result);
 
 if(isset($_POST["limit"])){
-  $limit_value = $_POST["limit"];
+ 
 if(mysqli_num_rows($result)>0)
 { 
        $output .= '<table  width="100%" cellpadding="5px" >

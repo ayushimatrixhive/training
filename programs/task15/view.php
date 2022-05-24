@@ -136,7 +136,7 @@
         <div id="success-message"></div>
         <div>
 
-        <div id="modal">
+        <!-- <div id="modal">
           <div id="modal-form">
           <form id="formdata1" action="view.php" method="POST"  enctype="multipart/form-data">
             <h2>EDIT FORM</h2>
@@ -181,7 +181,7 @@
              </table>
             <div id="close-btn"> x </div>
            </div>
-        </div>
+        </div> -->
 </div>  
 </body>
 
@@ -298,42 +298,43 @@
 
 // search bar 
 
-
 $(document).ready(function(){
   //alert("hello");
     $('#search').on("keyup",function(){
       var search_term=$(this).val();
+      //alert(search_term)
+      loadData(search_term)
+      // $.ajax({
+      //   url:"ajax-live-search.php",
+      //   type:"POST",
+      //   data :{search:search_term},
+      //   success : function(data){
+      //     //console.log(data);
+      //     $("#table-data").html(data);
 
-      $.ajax({
-        url:"ajax-live-search.php",
-        type:"POST",
-        data :{search:search_term},
-        success : function(data){
-          //console.log(data);
-          $("#table-data").html(data);
+      //   }
 
-        }
-
-      });
+      // });
     });
+    loadData('');
   });
 
 
 //multiple-record delete
-
-$(document).ready(function(){
-  function loadData(){
+function loadData(search_term){
+ // alert(search_term)
       $.ajax({
           url:"load-data.php",
-          type:"POST",
+          type:"get",
+          data :{search:search_term},
           success : function (data){
            // console.log(data);
               $("#table-data").html(data);
           }
       })
   }
-  loadData();
 
+$(document).ready(function(){
 $("#delete-btn").on("click",function(){
  
     var id=[];
@@ -349,7 +350,7 @@ $("#delete-btn").on("click",function(){
     } else {
       if(confirm ("do you really want delete these records?")){
         $.ajax({
-            url:"delete-data.php",
+            url:"ajax-delete.php",
             type:"POST",
             data : {id :id},
             success: function(data){
@@ -368,6 +369,8 @@ $("#delete-btn").on("click",function(){
     }
 });
 });
+
+//validation
 
 $(document).ready(function() {
 let check = $("#formdata1").validate(

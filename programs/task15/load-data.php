@@ -3,7 +3,23 @@
 $conn = mysqli_connect("localhost","root1","root1","participant") OR die("Connection failed");
 
 $output="";
-$sql="SELECT * FROM person_data";
+var_dump($search_value =$_REQUEST["search"]);
+if($search_value == '' ){
+    $sql="SELECT * FROM person_data";
+}else{
+    $sql="SELECT * FROM person_data 
+    WHERE fname LIKE '%{$search_value}%' 
+       OR lname LIKE '%{$search_value}%' 
+       OR dob LIKE '%{$search_value}%' 
+       OR phone_no LIKE '%{$search_value}%'
+       OR email LIKE '%{$search_value}%'
+       OR source1 LIKE '%{$search_value}%' 
+       OR age LIKE '%{$search_value}%'
+       OR campaign LIKE '%{$search_value}%'";  
+}
+
+
+
 $result = mysqli_query($conn , $sql) or die("sql query failed");
 if(mysqli_num_rows($result)>0)
 {
@@ -15,8 +31,8 @@ if(mysqli_num_rows($result)>0)
                     <th width='120px'> F NAME </th>
                     <th width='120px'> L NAME  </th>
                     <th width='120px'> DOB </th>
-                    <th  align='center' width='50px'>  AGE </th>
-                    <th width='80px'> PHONE_NO </th>
+                    <th align='center' width='50px'> AGE </th>
+                    <th width='80px'>  PHONE_NO </th>
                     <th width='150px'> EMAIL </th>
                     <th width='200px'> SOURCE1 </th>
                     <th width='350px'> CAMPAIGN </th>  
@@ -51,8 +67,8 @@ if(mysqli_num_rows($result)>0)
             
         }
 
-if ($result == true) {
-    header("Location:view.php");
-} else {
-    echo "Data can't be updated";
-}
+// if ($result == true) {
+//     header("Location:view.php");
+// } else {
+//     echo "Data can't be updated";
+// }

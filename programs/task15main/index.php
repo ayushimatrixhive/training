@@ -30,6 +30,34 @@ $num_per_page=05;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>See USERS Details</title>
 </head>
+<style>
+    #pagination {
+        margin-left: 700%;
+        display : flex;
+
+    }
+
+    #pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color .3s;
+       
+    }
+
+    #pagination a.active {
+        background-color: dodgerblue;
+        color: white;
+     
+    }
+
+    #pagination a:hover:not(.active) {
+        background-color: #ddd;
+      
+    }
+</style>
+
 
 <body>
     <div class="card">
@@ -59,9 +87,9 @@ $num_per_page=05;
             <button id="delete-btn" name="delete_data" class="btn btn-danger"> Delete </button>
             </div>
 
-           <table class = "table table-bordered">
-                <thead class = "bg-primary text-white text-center">
-                    <tr> 
+            <table class = "table table-bordered">
+                <thead class = "bg-primary text-white text-center"> 
+                     <tr> 
                         <th>#</th>
                         <th>Id</th>
                         <th>Fname</th>
@@ -75,55 +103,23 @@ $num_per_page=05;
                         <th>Country</th>
                         <th>Action</th>
                      </tr> 
-                    <thead id="response"> 
+                    <thead id="review"> 
 
             </table>
+            <!-- <div id="pagination">
+                <a class="active" id="1" href="">1</a>
+                <a id="2" href="">2</a>
+                <a id="3" href="">3</a>
+            </div> -->
 
-         <!-- <div id="pagination" class="pagination-container" style="height : 500% ; margin-left:75%; margin-bottom : -30px;"> 
-                    <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul> -->
-            </div>
-
-            <!-- <script type="text/lavascript" src="js/jquery.js"></script>
-            <script type="text/javascript">
-                $(document).ready(function(){
-                    function  userData(page){
-                        $.ajax({
-                            url:"ajax-pagination.php",
-                            type:"post",
-                            data:{page_no:page},
-                            success : function(data){
-                                $("#data").html(data);
-                            }
-                        });
-                    }
-
-                userData();
-
-                $(document).on("click","#pagination a",function(e){
-                    e.preventDefault();
-                    var page_id =$(this).attr("id");
-
-                    userData();
-                })
-
-
-           </script> -->
             <script>
 
-                function userData() {
+                function userData(page) {
                     var limit = $("#limit").val();
                     var search = $("#search").val();
-                    var page = $("#page").val();
 
-
-                    //console.log(limit)
-                    //console.log(search)                    
+                    console.log(limit)
+                    console.log(search)                    
 
                     $.ajax({
                         type: "POST",
@@ -131,20 +127,27 @@ $num_per_page=05;
                         data: {
                             limit: limit,
                             search:search,
-                            page: page,
-
-                        },
+                            page: page
+                         },
                          success: function(data) {
-                              $("#response").html(data);
+                              $("#review").html(data);
                              }
                      });
                  }
                  userData();
 
-                $(document).ready(function() {
-                
+                //  $(document).ready(function() {
+                //     userData();
 
-                });
+                // });
+
+                
+                    $(document).on("click","#pagination a",function(e){
+                        e.preventDefault();
+                        var page_id =$(this).attr("id");
+                        console.log(page_id);
+                        userData(page_id);
+                    })
 
 
                 //multiple-delete

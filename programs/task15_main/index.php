@@ -54,11 +54,9 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     <div class="card">
        
         <div class="card-body " id="data">
-            <!-- <div class="search-box" style="width: 25%;margin-left:75%" >
-        <input type="text" autocomplete="off" placeholder="Search country..." class="form-control">
-        <div class="result"></div> -->
 
             <select id="limit" class="form-select limits"  onchange="userData()" style="width: 10%;" name="limits">
+            <!-- <option value="">All</option> -->
                 <option value="5">5</option>
                 <option value="10">10</option>
                 <option value="15">15</option>
@@ -69,8 +67,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
             </select>
 
             <div class="livesearch">
-                <input type="text" placeholder="Search" onkeyup="userData()" class="form-control" id="search" style="width: 30%; margin-left:70%;    margin-top: -36px;
-">
+                <input type="text" placeholder="Search" onkeyup="userData()" class="form-control" id="search" style="width: 30%; margin-left:70%; margin-top: -36px;">
             </div>
             <br>
             <div class="deletebutton">
@@ -78,20 +75,22 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
             <button id="delete-btn" name="delete_data" class="btn btn-danger"> Delete </button>
             </div>
             <br>
+            
 
             <table class="table table-bordered">
                 <thead class="bg-primary text-white text-center">
                     <tr>
-                        <th>#<p><select onclick="userData()" id="ordering">
+                        <th>#<p><select  onchange="userData()" id="sorting">
+                        <option value="">Sorting Data</option>
                         <option value="ASC">Ascending</option>
                         <option value="DESC">Descending</option></select></p></th>
                         <th>Id</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
+                        <th>F Name</th>
+                        <th>L Name</th>
                         <th>DOB</th>
                         <th>Age</th>
                         <th>Email</th>
-                        <th>phone no</th>
+                        <th>phone_no</th>
                         <th>Source1</th>
                         <th>Campign</th>
                         <th>Country</th>
@@ -102,16 +101,33 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                   <br>
 
                 </tbody>
+
+                <!-- <div class="table-responsive" id="employee_table">
+                    <table class = "table table-bordered">
+                        <tr>
+                            <th> <a class="coloumn_sort" id="id" data-order="desc" href="#">ID</a></th>
+                            <th> <a class="coloumn_sort" id="fname" data-order="desc" href="#">Fname</a></th>
+                            <th> <a class="coloumn_sort" id="lname" data-order="desc" href="#">Lname</a></th>
+                            <th> <a class="coloumn_sort" id="dob" data-order="desc" href="#">DOB</a></th>
+                            <th> <a class="coloumn_sort" id="age" data-order="desc" href="#">AGE</a></th>
+                            <th> <a class="coloumn_sort" id="phone_no" data-order="desc" href="#">PHONE_NO</a></th>
+                            <th> <a class="coloumn_sort" id="source1" data-order="desc" href="#">SOURCE1</a></th>
+                            <th> <a class="coloumn_sort" id="campaign" data-order="desc" href="#">CAMPAIGN</a></th>
+                            <th> <a class="coloumn_sort" id="country" data-order="desc" href="#">COUNTRY</a></th>
+
+                        </tr> -->
+
             </table>
            
             
 
             <script>
                 function userData(page) {
+                   // alert("aaa");
                     var limit = $("#limit").val();
                     var search = $("#search").val();
-                    var sorting = $("#ordering").val();
-                    console.log(sorting);
+                    var sort = $("#sorting").val();
+                    console.log(sort);
 
                     $.ajax({
                         type: "POST",
@@ -119,18 +135,15 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                         data: {
                             limit: limit,
                             search: search,
+                            sort:sort,
                             data: {
                                 page: page,
-                                sorting:sorting
                             }
 
                         },
 
                         success: function(data) {
-
                             $("#reviewpage").html(data);
-
-
                         }
                     });
                 }
@@ -151,9 +164,9 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                         type: "POST",
                         url: "db.php",
                         data: {page_id:page_id,
-                            limit:limit,
-                            search:search
-},
+                               limit:limit,
+                               search:search,
+                             },
                         success: function (pagedata) {
                             $(".paginate").html(pagedata);
                         }
@@ -161,6 +174,8 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                     //userData(page_id);
 
                 })
+            
+
                     //multiple-delete
                     $("#delete-btn").on("click",function(){
                     

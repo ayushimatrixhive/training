@@ -18,40 +18,42 @@ class Makedatatable
         }
         // $offset = ($page - 1) * $limit_per_page;
         $query = "SELECT * FROM person_data";
+
         if ($_POST['search']) {
             $search_value = $_POST['search'];
             $query .= " " . "WHERE" . " " . "fname" . " " . "LIKE" . " " . "'%" . $search_value . "%'" . "OR"
-                                . " " .  "lname" . " " . "LIKE" . " " . "'%" . $search_value . "%'" . "OR" 
-                                . " " .  "dob" . " " . "LIKE" . " " . "'%" .  $search_value. "%'" . "OR" 
-                                . " " .  "age" . " " . "LIKE" . " " . "'%" .  $search_value . "%'" . "OR" 
-                                . " " .  "email" . " " . "LIKE" . " " . "'%" . $search_value . "%'" . "OR" 
-                                . " " .  "phone_no" . " " . "LIKE" . " " . "'%" .  $search_value . "%' " . "OR"
-                                . " " .  "source1" . " " . "LIKE" . " " . "'%" .  $search_value . "%'" . "OR" 
-                                . " " .  "campaign" . " " . "LIKE" . " " . "'%" .  $search_value . "%'" . "OR" 
-                                . " " .  "country" . " " . "LIKE" . " " . "'%" .  $search_value . "%'";
+                                    . " " .  "lname" . " " . "LIKE" . " " . "'%" . $search_value . "%'" . "OR" 
+                                    . " " .  "dob" . " " . "LIKE" . " " . "'%" .  $search_value. "%'" . "OR" 
+                                    . " " .  "age" . " " . "LIKE" . " " . "'%" .  $search_value . "%'" . "OR" 
+                                    . " " .  "email" . " " . "LIKE" . " " . "'%" . $search_value . "%'" . "OR" 
+                                    . " " .  "phone_no" . " " . "LIKE" . " " . "'%" . $search_value . "%' " . "OR"
+                                    . " " .  "source1" . " " . "LIKE" . " " . "'%" . $search_value . "%'" . "OR" 
+                                    . " " .  "campaign" . " " . "LIKE" . " " . "'%" . $search_value . "%'" . "OR" 
+                                    . " " .  "country" . " " . "LIKE" . " " . "'%" . $search_value . "%'";
                             }
                             
-        // $query = "SELECT * FROM person_data";
-        // if ($_POST['order']) {
-        //     $order_value =$_POST['order'];
-        //     $query.="SELECT * FROM person_data ORDER BY id  ASE";
-        
+            if($_POST['sort']){
+                $sorting = $_POST['sort'];
+                $query .= " ". "ORDER BY". " " ."id". " " . $sorting;
+                echo $query;
+            }
+           // var_dump($sorting);
 
-        $query = "SELECT * FROM person_data ";
+
+    
         $main_res = mysqli_query($this->conn, $query);
         $total_record = mysqli_num_rows($main_res);
-         print_r(" $total_record");
+         print_r("$total_record");
+
         $limit = $_POST['limit'] ? $_POST['limit'] : $total_record;
         $offset = ($page - 1) * $limit;
 
-        //$query .= " " . "LIMIT" . " " . $limit;
+      
+        $query .= " " . "LIMIT" . " " . $offset . "," . $limit ;
+        //echo $query;
 
-        $query .= " " . "LIMIT" . " " . $offset . "," . $limit;
-        echo $query;
-
-        $pag_id = $_POST['page_id'];
-        $offset = ($pag_id - 1) * $limit;
-
+       $pag_id = $_POST['page_id'];
+       $offset = ($pag_id - 1) * $limit;
         echo "<br>";
         $result = mysqli_query($this->conn, $query);
         $output = "";
@@ -78,6 +80,7 @@ class Makedatatable
             $res = mysqli_query($this->conn, $sql);
             $total_records = mysqli_num_rows($res);
             $total_pages = ceil($total_records / $limit);
+           //  print_r("$total_pages");
             $output .= "<div class = 'pagination' id='pagination' style='margin-left:100%'>";
 
             for ($i = 1; $i <= $total_pages; $i++) {

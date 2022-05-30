@@ -128,14 +128,13 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                         },
 
                         success: function(data) {
-                            console.log(data);
+                           // console.log(data);
                             if (sort == "ASC") {
                                 $("#sort").val("DESC");
                             } else {
                                 $("#sort").val("ASC");
                             }
                             $(".paginate").html(data);
-                       //  $(".pag-data").html(data);
                         }
                     });
                 }

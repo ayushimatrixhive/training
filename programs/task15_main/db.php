@@ -20,6 +20,9 @@ class Makedatatable
         $offset = ($page - 1) * $limit;
        // print_r("$offset");
         $query = "SELECT * FROM person_data";
+        $res = mysqli_query($this->conn, $query);
+        $total_records = mysqli_num_rows($res);
+        print_r("$total_records");
        // echo $query;
 
         if ($_POST['search']) {
@@ -35,7 +38,6 @@ class Makedatatable
                         }   
 
         if ($_POST['columnName']) {
-
             $column = $_POST['columnName'];
             $sort = $_POST['sort'];
             $query .= " "."ORDER BY"." ".$column." ".$sort ;
@@ -76,10 +78,8 @@ class Makedatatable
                 <td><a href ='index.php?id:{$row['id']}'>Delete</a></td>
                 </tr>";
         }
-            $query = "SELECT * FROM person_data";
-            $res = mysqli_query($this->conn, $query);
-            $total_records = mysqli_num_rows($res);
-            print_r("$total_records");
+            //$query = "SELECT * FROM person_data";
+           
             $total_pages = ceil($total_records / $limit);
             echo"<br>";
             print_r("$total_pages");

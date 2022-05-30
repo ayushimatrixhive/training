@@ -1,8 +1,9 @@
 <?php
 include 'db.php';
+$rowobj=new Makedatatable();
 if (isset($_GET['id']) && !empty($_GET['id'])) {
     $deleteId = $_GET['id'];
-    $rowobj->deleteRecord($id);
+    $obj->deleteRecord($id);
 }
 ?>
 <!DOCTYPE html>
@@ -15,7 +16,10 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     <script src="https:cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="https:ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
+    <!-- <script src="//code.jquery.com/jquery-1.12.4.js"></script> -->
+
+   
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>See Employee details</title>
@@ -65,69 +69,53 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                 <option value="">All</option>
 
             </select>
-
+          
             <div class="livesearch">
                 <input type="text" placeholder="Search" onkeyup="userData()" class="form-control" id="search" style="width: 30%; margin-left:70%; margin-top: -36px;">
             </div>
             <br>
             <div class="deletebutton">
-            <!-- <button type="button" type="submit"  id="deletebtn" value="delete" class="btn btn-primary btn-sm delete"  data-id="<?=$row['id'];?>">Delete</button>  </div> -->
             <button id="delete-btn" name="delete_data" class="btn btn-danger"> Delete </button>
             </div>
             <br>
-            
-
-            <table class="table table-bordered">
+        <div class='container'>
+            <table class="table table-bordered" cellpadding='10'>
                 <thead class="bg-primary text-white text-center">
                     <tr>
-                        <th>#<p><select  onchange="userData()" id="sorting">
-                        <option value="">Sorting Data</option>
-                        <option value="ASC">Ascending</option>
-                        <option value="DESC">Descending</option></select></p></th>
-                        <th>Id</th>
-                        <th>F Name</th>
-                        <th>L Name</th>
-                        <th>DOB</th>
-                        <th>Age</th>
-                        <th>Email</th>
-                        <th>phone_no</th>
-                        <th>Source1</th>
-                        <th>Campign</th>
-                        <th>Country</th>
-                       
+                        <input type='hidden' id='sort' value='asc'>
+                        <th onclick='userData("id")'>#</th>
+                        <th onclick='userData("id")'>ID</th>
+                        <th onclick='userData("fname")'>FName</th>
+                        <th onclick='userData("lname")'>LName</th>
+                        <th onclick='userData("dob")'>DOB</th>
+                        <th onclick='userData("age")'>AGE</th>
+                        <th onclick='userData("email")'>EMAIL</th>
+                        <th onclick='userData("phone_no")'>PHONE_NO</th>
+                        <th onclick='userData("source1")'>SOURCE1</th>
+                        <th onclick='userData("campaign")'>CAMPAIGN</th>
+                        <th onclick='userData("country")'>COUNTRY</th>
+                        <th>ACTION</th>
                     </tr>
                 </thead>
-                <tbody id="reviewpage" class="paginate">
+                <tbody id="reviewpage" class="paginate" data>
                   <br>
 
                 </tbody>
-
-                <!-- <div class="table-responsive" id="employee_table">
-                    <table class = "table table-bordered">
-                        <tr>
-                            <th> <a class="coloumn_sort" id="id" data-order="desc" href="#">ID</a></th>
-                            <th> <a class="coloumn_sort" id="fname" data-order="desc" href="#">Fname</a></th>
-                            <th> <a class="coloumn_sort" id="lname" data-order="desc" href="#">Lname</a></th>
-                            <th> <a class="coloumn_sort" id="dob" data-order="desc" href="#">DOB</a></th>
-                            <th> <a class="coloumn_sort" id="age" data-order="desc" href="#">AGE</a></th>
-                            <th> <a class="coloumn_sort" id="phone_no" data-order="desc" href="#">PHONE_NO</a></th>
-                            <th> <a class="coloumn_sort" id="source1" data-order="desc" href="#">SOURCE1</a></th>
-                            <th> <a class="coloumn_sort" id="campaign" data-order="desc" href="#">CAMPAIGN</a></th>
-                            <th> <a class="coloumn_sort" id="country" data-order="desc" href="#">COUNTRY</a></th>
-
-                        </tr> -->
-
             </table>
-           
+            <div class="pag-data"></div>
+
+</div>
             
 
             <script>
-                function userData(page) {
+                function userData(columnName) {
                    // alert("aaa");
                     var limit = $("#limit").val();
                     var search = $("#search").val();
-                    var sort = $("#sorting").val();
-                    console.log(sort);
+                    var sort = $("#sort").val();
+                      var page_id = $(this).attr("id");
+
+                   // console.log(sort);
 
                     $.ajax({
                         type: "POST",
@@ -135,15 +123,20 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                         data: {
                             limit: limit,
                             search: search,
-                            sort:sort,
-                            data: {
-                                page: page,
-                            }
+                            columnName: columnName,
+                            sort: sort,
 
                         },
 
                         success: function(data) {
-                            $("#reviewpage").html(data);
+                         //   console.log(data);
+                            if (sort == "asc") {
+                                $("#sort").val("desc");
+                            } else {
+                                $("#sort").val("asc");
+                            }
+                            $(".paginate").html(data);
+                       //  $(".pag-data").html(data);
                         }
                     });
                 }
@@ -165,34 +158,35 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                         url: "db.php",
                         data: {page_id:page_id,
                                limit:limit,
-                               search:search,
+                               search:search
+                              
                              },
                         success: function (pagedata) {
                             $(".paginate").html(pagedata);
                         }
                     });
                     //userData(page_id);
+                });
 
-                })
             
 
-                    //multiple-delete
+                    // //multiple-delete
                     $("#delete-btn").on("click",function(){
                     
                     var id=[];
-                    // console.log(id);
+                     console.log(id);
 
                     $(":checkbox:checked").each(function(key){
                         id[key] = $(this).val();
 
                     });
-                    // console.log(id);
+                     console.log(id);
                     if(id.length === 0){
                         alert("PLEASE! select checkbox.");
                     } else {
                     if(confirm ("do you really want delete these records?")){
                         $.ajax({
-                            url:"ajax-delete.php",
+                            url:"db.php",
                             type:"POST",
                             data : {id :id},
                             success: function(data){
@@ -206,10 +200,12 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                             }
                             }
                         });
+                          userData();  
                     }   
-                    userData();  
+                  
                     };
                     });
+
             </script>
         </div>
 

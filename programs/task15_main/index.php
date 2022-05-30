@@ -1,9 +1,9 @@
 <?php
 include 'db.php';
-$rowobj=new Makedatatable();
-if (isset($_GET['id']) && !empty($_GET['id'])) {
-    $deleteId = $_GET['id'];
-    $obj->deleteRecord($id);
+$obj=new Makedatatable();
+if(isset($_GET['id']) && !empty($_GET['id'])) {
+    $id = $_GET['id'];
+    $rowdelete->deleteRecord($id);
 }
 ?>
 <!DOCTYPE html>
@@ -82,8 +82,8 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
             <table class="table table-bordered" cellpadding='10'>
                 <thead class="bg-primary text-white text-center">
                     <tr>
-                        <input type='hidden' id='sort' value='asc'>
-                        <th onclick='userData("id")'>#</th>
+                        <input type='hidden' id='sort' value='ASC'>
+                        <th>#</th>
                         <th onclick='userData("id")'>ID</th>
                         <th onclick='userData("fname")'>FName</th>
                         <th onclick='userData("lname")'>LName</th>
@@ -97,14 +97,12 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                         <th>ACTION</th>
                     </tr>
                 </thead>
-                <tbody id="reviewpage" class="paginate" data>
+                <tbody id="reviewpage" class="paginate">
                   <br>
-
-                </tbody>
+                 </tbody>
             </table>
             <div class="pag-data"></div>
-
-</div>
+        </div>
             
 
             <script>
@@ -113,7 +111,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                     var limit = $("#limit").val();
                     var search = $("#search").val();
                     var sort = $("#sort").val();
-                      var page_id = $(this).attr("id");
+                    var page_id = $(this).attr("id");
 
                    // console.log(sort);
 
@@ -125,15 +123,16 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                             search: search,
                             columnName: columnName,
                             sort: sort,
+                            page_id:page_id
 
                         },
 
                         success: function(data) {
-                         //   console.log(data);
-                            if (sort == "asc") {
-                                $("#sort").val("desc");
+                            console.log(data);
+                            if (sort == "ASC") {
+                                $("#sort").val("DESC");
                             } else {
-                                $("#sort").val("asc");
+                                $("#sort").val("ASC");
                             }
                             $(".paginate").html(data);
                        //  $(".pag-data").html(data);
@@ -146,27 +145,31 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
                 });
 
-                $(document).on("click", "#pagination a", function(e) {
-                    e.preventDefault();
-                    var page_id = $(this).attr("id");
-                    var limit = $("#limit").val();
-                    var search = $("#search").val();
-                    
+                 $(document).on("click", "#pagination a", function(e) {
+                     e.preventDefault();
+                    // userData();
+                      var page_id = $(this).attr("id");
+                      var limit = $("#limit").val();
+                      var search = $("#search").val();
+                      var sort = $("#sort").val();
 
-                    $.ajax({
-                        type: "POST",
-                        url: "db.php",
-                        data: {page_id:page_id,
-                               limit:limit,
-                               search:search
+                      $.ajax({
+                          type: "POST",
+                          url: "db.php",
+                          data: {
+                                page_id:page_id,
+                                 limit:limit,
+                                 search:search,
+                                // columnName: columnName,
+                                 sort:sort
                               
-                             },
-                        success: function (pagedata) {
-                            $(".paginate").html(pagedata);
-                        }
-                    });
-                    //userData(page_id);
-                });
+                               },
+                          success: function (pagedata) {
+                              $(".paginate").html(pagedata);
+                          }
+                      });
+                    // userData(page_id);
+                 });
 
             
 
@@ -200,7 +203,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                             }
                             }
                         });
-                          userData();  
+                        userData();  
                     }   
                   
                     };

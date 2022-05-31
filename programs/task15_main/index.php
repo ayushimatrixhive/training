@@ -1,10 +1,5 @@
 <?php
 include 'db.php';
-$obj=new Makedatatable();
-if(isset($_GET['id']) && !empty($_GET['id'])) {
-    $id = $_GET['id'];
-    $rowdelete->deleteRecord($id);
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,9 +9,9 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link href="https:cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https:cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
     <script src="https:ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
+    <!-- <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script> -->
     <!-- <script src="//code.jquery.com/jquery-1.12.4.js"></script> -->
 
    
@@ -51,6 +46,7 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
     .pagination a:hover:not(.active) {
         background-color: #ddd;
     }
+   
     
 </style>
 
@@ -70,7 +66,7 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
 
             </select>
           
-            <div class="livesearch">
+            <div class="livesearch" >
                 <input type="text" placeholder="Search" onkeyup="userData()" class="form-control" id="search" style="width: 30%; margin-left:70%; margin-top: -36px;">
             </div>
             <br>
@@ -78,22 +74,22 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
             <button id="delete-btn" name="delete_data" class="btn btn-danger"> Delete </button>
             </div>
             <br>
-        <div class='container'>
+        <div class='container' >
             <table class="table table-bordered" cellpadding='10'>
                 <thead class="bg-primary text-white text-center">
-                    <tr>
+                    <tr> 
                         <input type='hidden' id='sort' value='ASC'>
                         <th>#</th>
-                        <th onclick='userData("id")'>ID</th>
-                        <th onclick='userData("fname")'>FName</th>
-                        <th onclick='userData("lname")'>LName</th>
-                        <th onclick='userData("dob")'>DOB</th>
-                        <th onclick='userData("age")'>AGE</th>
-                        <th onclick='userData("email")'>EMAIL</th>
-                        <th onclick='userData("phone_no")'>PHONE_NO</th>
-                        <th onclick='userData("source1")'>SOURCE1</th>
-                        <th onclick='userData("campaign")'>CAMPAIGN</th>
-                        <th onclick='userData("country")'>COUNTRY</th>
+                        <th class="column_sort" data-order="ASC" data-id="id">ID<br><span><i class='fas fa-caret-up'></i></span></th>
+                        <th class="column_sort" data-order="ASC" data-id="fname">FNAME<br><span><i class='fas fa-caret-up'></i></span></th>
+                        <th class="column_sort" data-order="ASC" data-id="lname">LNAME<br><span><i class='fas fa-caret-up'></i></span></th>
+                        <th class="column_sort" data-order="ASC" data-id="dob">DOB<br><span><i class='fas fa-caret-up'></i></span></th>
+                        <th class="column_sort" data-order="ASC" data-id="age">AGE<br><span><i class='fas fa-caret-up'></i></span></th>
+                        <th class="column_sort" data-order="ASC" data-id="email">EMAIL<br><span><i class='fas fa-caret-up'></i></span></th>
+                        <th class="column_sort" data-order="ASC" data-id="phone_no">PHONE_NO<br><span><i class='fas fa-caret-up'></i></span></th>
+                        <th class="column_sort" data-order="ASC" data-id="source1">SOURCE1<br><span><i class='fas fa-caret-up'></i></span></th>
+                        <th class="column_sort" data-order="ASC" data-id="campaign">CAMPAIGN<br><span><i class='fas fa-caret-up'></i></span></th>
+                        <th class="column_sort" data-order="ASC" data-id="country">COUNTRY<br><span><i class='fas fa-caret-up'></i></span></th>
                         <th>ACTION</th>
                     </tr>
                 </thead>
@@ -102,18 +98,20 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                  </tbody>
             </table>
             <div class="pag-data"></div>
+
+            <div id="error-message"></div>
+        <div id="success-message"></div>
         </div>
             
 
-            <script>
-                function userData(columnName) {
-                   // alert("aaa");
+        <script>
+                function userData(page=1,data_name,data_dir) {
+                   // alert("page");
                     var limit = $("#limit").val();
                     var search = $("#search").val();
                     var sort = $("#sort").val();
-                    var page_id = $(this).attr("id");
-
                    // console.log(sort);
+                   console.log(data_name);
 
                     $.ajax({
                         type: "POST",
@@ -121,20 +119,15 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                         data: {
                             limit: limit,
                             search: search,
-                            columnName: columnName,
                             sort: sort,
-                            page_id:page_id
+                            page_id:page,
+                            data_name: data_name,
+                            data_dir: data_dir,
 
                         },
 
                         success: function(data) {
-                           // console.log(data);
-                            if (sort == "ASC") {
-                                $("#sort").val("DESC");
-                            } else {
-                                $("#sort").val("ASC");
-                            }
-                            $(".paginate").html(data);
+                            $("#reviewpage").html(data);
                         }
                     });
                 }
@@ -142,35 +135,47 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                 $(document).ready(function() {
                     userData();    
 
+             
+
+                $(".column_sort").click(function(e) {
+                        //alert();
+                        var data_name = $(this).attr("data-id");
+                        var data_dir = $(this).attr("data-order");
+                      // var arrow = ''; 
+
+                        if (data_dir == "ASC") {
+                            $(".column_sort").attr("data-order", "DESC");
+                             //arrow = '<span class="glyphicon glyphicon-arrow-down"></span>';  
+                        } else {
+                            $(".column_sort").attr("data-order", "ASC");
+                            // arrow = '<span class="glyphicon glyphicon-arrow-up"></span>';  
+
+                        }
+                        userData(1, data_name, data_dir);
+
+                    });
+
                 });
 
-                 $(document).on("click", "#pagination a", function(e) {
-                     e.preventDefault();
-                    // userData();
-                      var page_id = $(this).attr("id");
-                      var limit = $("#limit").val();
-                      var search = $("#search").val();
-                      var sort = $("#sort").val();
+                    $(document).on("click",".delete-btn",function(){
+                        var stuId = $(this).data("id");
+                        var element = this;
+                       // alert(stuId);
 
-                      $.ajax({
-                          type: "POST",
-                          url: "db.php",
-                          data: {
-                                page_id:page_id,
-                                 limit:limit,
-                                 search:search,
-                                // columnName: columnName,
-                                 sort:sort
-                              
-                               },
-                          success: function (pagedata) {
-                              $(".paginate").html(pagedata);
-                          }
-                      });
-                    // userData(page_id);
-                 });
+                        $.ajax({
+                            url:"db.php",
+                            type:"POST",
+                            data :{id:stuId },
+                            success: function(data){
+                                //console.log(data)
+                                if(data==1){
+                                    $(element).closest("tr").fadeOut();
+                                }
+                            }
+                        });
+                        userData(); 
+                    });
 
-            
 
                     // //multiple-delete
                     $("#delete-btn").on("click",function(){
@@ -197,7 +202,7 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                                 $("#success-message").html("data delete successfully.").slideDown();
                                 $("#error-message").slideUp();
                             }else{
-                                $("#error-message").html("data can't delete ").slideDown();
+                                $("#error-message").html("data  delete ").slideDown();
                                 $("#success-message").slideUp();
                             }
                             }

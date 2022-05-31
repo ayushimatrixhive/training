@@ -16,9 +16,8 @@ class Makedatatable
         } else {
             $page = 1;
         }
-        // $offset = ($page - 1) * $limit_per_page;
-        $offset = ($page - 1) * $limit;
-       // print_r("$offset");
+
+       
         $query = "SELECT * FROM person_data";
         $res = mysqli_query($this->conn, $query);
         $total_records = mysqli_num_rows($res);
@@ -37,21 +36,22 @@ class Makedatatable
                         OR campaign LIKE '%{$search_value}%'";  
                         }   
 
-        if ($_POST['columnName']) {
-            $column = $_POST['columnName'];
-            $sort = $_POST['sort'];
-            $query .= " "."ORDER BY"." ".$column." ".$sort ;
+        if ($_POST['data_name'] && $_POST['data_dir']) {
+            $data_name = $_POST['data_name'];
+            $data_dir = $_POST['data_dir'];
+            $query .= " " . "ORDER BY" . " " . $data_name . " " . $data_dir;
             echo $query;
-           // var_dump("$query");
         }
           
         $main_res = mysqli_query($this->conn, $query);
         $total_record = mysqli_num_rows($main_res);
        //  print_r("$total_record");
 
-        $limit = $_POST['limit'] ? $_POST['limit'] : $total_record;
+       $limit = ($_POST['limit']&& $_POST['limit']!= "") ? $_POST['limit'] : (($_POST['limit'] == "")  ? $total_record : 5);
         $offset = ($page - 1) * $limit;
-
+        if ($offset <= 0) {
+            $offset = 0;
+        } 
       
         $query .= " "."LIMIT"." ".$offset.",".$limit;
         //echo $query;
@@ -75,7 +75,7 @@ class Makedatatable
                 <td>{$row['source1']}</td>
                 <td>{$row['campaign']}</td>
                 <td>{$row['country']}</td>
-                <td><a href ='index.php?id:{$row['id']}'>Delete</a></td>
+                <td><button class='delete-btn' data-id='{$row["id"]}'>Delete</button></td>
                 </tr>";
         }
             //$query = "SELECT * FROM person_data";
@@ -87,25 +87,24 @@ class Makedatatable
 
             for ($i = 1; $i <= $total_pages; $i++) {
 
-                $output .= "<a class='active' id='{$i}' href=''>{$i}</a>";
+                $output .= "<a class='active' id='{$i}'  onclick = userData({$i})>{$i}</a>";
             }
             $output .= "</div>";
             echo $output;
         }
     }
 
-    public function deleteRecord($id)
+    public function deleteRecord()
         {
             $id=$_POST['id'];
+            //print_r("$id");
             $query = "DELETE FROM person_data WHERE id =$id";
             //$sql = $this->conn->query($query);
             $sql=mysqli_query($this->conn,$query);
             //echo $sql;
              if ($sql==true) {
                 echo "Record  delete successfully";
-             }else{
-               echo "Record does not delete try again";
-            }
+             }
         }
         
 
@@ -117,9 +116,6 @@ class Makedatatable
         $delete_res = mysqli_query($this->conn,$sql_query);
         if($delete_res){
             echo 1;
-        }
-        else{
-            echo 0;
         }
     }
 }
@@ -135,6 +131,6 @@ if (count($_POST) > 0) {
 
     $rowobj->tableData();
     $obj->multipleDelete();
-   // $rowdelete->deleteRecord($id);
+    $rowdelete->deleteRecord();
     
 }

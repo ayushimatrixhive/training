@@ -21,7 +21,6 @@ class Makedatatable
         $query = "SELECT * FROM person_data";
         $res = mysqli_query($this->conn, $query);
         $total_records = mysqli_num_rows($res);
-        print_r("$total_records");
        // echo $query;
 
         if ($_POST['search']) {
@@ -36,31 +35,36 @@ class Makedatatable
                         OR campaign LIKE '%{$search_value}%'";  
                         }   
 
-        if ($_POST['data_name'] && $_POST['data_dir']) {
+        if (isset($_POST['data_name']) && $_POST['data_name'] && $_POST['data_dir']) {
             $data_name = $_POST['data_name'];
             $data_dir = $_POST['data_dir'];
             $query .= " " . "ORDER BY" . " " . $data_name . " " . $data_dir;
-            echo $query;
+           // echo $query;
         }
-          
+
         $main_res = mysqli_query($this->conn, $query);
         $total_record = mysqli_num_rows($main_res);
-       //  print_r("$total_record");
+         print_r("$total_record");
 
-       $limit = ($_POST['limit']&& $_POST['limit']!= "") ? $_POST['limit'] : (($_POST['limit'] == "")  ? $total_record : 5);
+        $limit = $_POST['limit'] ? $_POST['limit'] : $total_record;
         $offset = ($page - 1) * $limit;
         if ($offset <= 0) {
             $offset = 0;
         } 
+
+       
       
         $query .= " "."LIMIT"." ".$offset.",".$limit;
-        //echo $query;
+       // echo $query;
 
         $pag_id = $_POST['page_id'];
         $result = mysqli_query($this->conn, $query);
         $output = "";
         $total_pages = ceil($result / $limit);
+
         if ($result->num_rows > 0) {
+           
+
            
             while ($row = $result->fetch_assoc()) {
                 $output .="<tr>
@@ -82,12 +86,12 @@ class Makedatatable
            
             $total_pages = ceil($total_records / $limit);
             echo"<br>";
-            print_r("$total_pages");
+           // print_r("$total_pages");
             $output .= "<div class = 'pagination' id='pagination' style='margin-left:100%'>";
 
             for ($i = 1; $i <= $total_pages; $i++) {
 
-                $output .= "<a class='active' id='{$i}'  onclick = userData({$i})>{$i}</a>";
+                $output .= "<a class='active' id='{$i}'  onclick = pagination({$i})>{$i}</a>";
             }
             $output .= "</div>";
             echo $output;
@@ -99,11 +103,10 @@ class Makedatatable
             $id=$_POST['id'];
             //print_r("$id");
             $query = "DELETE FROM person_data WHERE id =$id";
-            //$sql = $this->conn->query($query);
             $sql=mysqli_query($this->conn,$query);
             //echo $sql;
              if ($sql==true) {
-                echo "Record  delete successfully";
+                echo 1;
              }
         }
         

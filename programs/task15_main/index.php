@@ -46,6 +46,15 @@ include 'db.php';
     .pagination a:hover:not(.active) {
         background-color: #ddd;
     }
+    .delete-btn{
+      background-color:red;
+      color:white;
+      border:0;
+      padding:4px 10px;
+      border-radius:3px;
+      cursor:pointer;
+
+    }
    
     
 </style>
@@ -78,18 +87,20 @@ include 'db.php';
             <table class="table table-bordered" cellpadding='10'>
                 <thead class="bg-primary text-white text-center">
                     <tr> 
+                        <input type='hidden' id='sort_column' value='id'>
+                        <input type='hidden' id='page' value='1'>
                         <input type='hidden' id='sort' value='ASC'>
                         <th>#</th>
-                        <th class="column_sort" data-order="ASC" data-id="id">ID<br><span><i class='fas fa-caret-up'></i></span></th>
-                        <th class="column_sort" data-order="ASC" data-id="fname">FNAME<br><span><i class='fas fa-caret-up'></i></span></th>
-                        <th class="column_sort" data-order="ASC" data-id="lname">LNAME<br><span><i class='fas fa-caret-up'></i></span></th>
-                        <th class="column_sort" data-order="ASC" data-id="dob">DOB<br><span><i class='fas fa-caret-up'></i></span></th>
-                        <th class="column_sort" data-order="ASC" data-id="age">AGE<br><span><i class='fas fa-caret-up'></i></span></th>
-                        <th class="column_sort" data-order="ASC" data-id="email">EMAIL<br><span><i class='fas fa-caret-up'></i></span></th>
-                        <th class="column_sort" data-order="ASC" data-id="phone_no">PHONE_NO<br><span><i class='fas fa-caret-up'></i></span></th>
-                        <th class="column_sort" data-order="ASC" data-id="source1">SOURCE1<br><span><i class='fas fa-caret-up'></i></span></th>
-                        <th class="column_sort" data-order="ASC" data-id="campaign">CAMPAIGN<br><span><i class='fas fa-caret-up'></i></span></th>
-                        <th class="column_sort" data-order="ASC" data-id="country">COUNTRY<br><span><i class='fas fa-caret-up'></i></span></th>
+                        <th class="column_sort" data-order="" data-id="id" >ID </i></th>
+                        <th class="column_sort" data-order="" data-id="fname">FNAME</th>
+                        <th class="column_sort" data-order="" data-id="lname">LNAME</th>
+                        <th class="column_sort" data-order="" data-id="dob">DOB</th>
+                        <th class="column_sort" data-order="" data-id="age">AGE</th>
+                        <th class="column_sort" data-order="" data-id="email">EMAIL</th>
+                        <th class="column_sort" data-order="" data-id="phone_no">PHONE_NO</th>
+                        <th class="column_sort" data-order="" data-id="source1">SOURCE1</th>
+                        <th class="column_sort" data-order="" data-id="campaign">CAMPAIGN</th>
+                        <th class="column_sort" data-order="" data-id="country">COUNTRY</th>
                         <th>ACTION</th>
                     </tr>
                 </thead>
@@ -110,8 +121,9 @@ include 'db.php';
                     var limit = $("#limit").val();
                     var search = $("#search").val();
                     var sort = $("#sort").val();
+                   //  console.log(search);
                    // console.log(sort);
-                   console.log(data_name);
+                   //console.log(data_name);
 
                     $.ajax({
                         type: "POST",
@@ -122,8 +134,7 @@ include 'db.php';
                             sort: sort,
                             page_id:page,
                             data_name: data_name,
-                            data_dir: data_dir,
-
+                            data_dir: data_dir
                         },
 
                         success: function(data) {
@@ -131,34 +142,56 @@ include 'db.php';
                         }
                     });
                 }
+                 
+                function pagination (page=1){
+                    var data_name = $("#sort_column").val();
+                  // console.log($("#sort_column").val());
+                    var data_dir = $("#sort").val();
+                  // console.log($("#sort").val());
+                    $("#page").attr("value", page);
+                   // console.log( $("#page").attr("value", page))
+
+                    userData(page, data_name, data_dir);
+                }
+
 
                 $(document).ready(function() {
                     userData();    
 
-             
 
-                $(".column_sort").click(function(e) {
+                    $(".column_sort").click(function(e) {
                         //alert();
                         var data_name = $(this).attr("data-id");
+                       // console.log($(this).attr("data-id"));
                         var data_dir = $(this).attr("data-order");
-                      // var arrow = ''; 
+                       // console.log($(this).attr("data-order"));
+                        var page = $("#page").val();
+                       // console.log($("#page").val());
+                       
+                        $("#sort_column").attr("value", data_name);
+                        //console.log($("#sort_column").attr("value", data_name));
 
-                        if (data_dir == "ASC") {
+                        if (data_dir == "ASC" || data_dir == "" ) {
                             $(".column_sort").attr("data-order", "DESC");
+                         //   console.log( $(".column_sort").attr("data-order", "DESC"));
+                            $("#sort").attr("value", "ASC");
                              //arrow = '<span class="glyphicon glyphicon-arrow-down"></span>';  
                         } else {
                             $(".column_sort").attr("data-order", "ASC");
+                            $("#sort").attr("value", "DESC");
                             // arrow = '<span class="glyphicon glyphicon-arrow-up"></span>';  
 
                         }
-                        userData(1, data_name, data_dir);
+                        userData(page, data_name, data_dir);
 
                     });
 
                 });
 
+                    //delete data
                     $(document).on("click",".delete-btn",function(){
                         var stuId = $(this).data("id");
+                       // console.log(stuId);
                         var element = this;
                        // alert(stuId);
 
@@ -181,13 +214,13 @@ include 'db.php';
                     $("#delete-btn").on("click",function(){
                     
                     var id=[];
-                     console.log(id);
+                    // console.log(id);
 
                     $(":checkbox:checked").each(function(key){
                         id[key] = $(this).val();
 
                     });
-                     console.log(id);
+                    // console.log(id);
                     if(id.length === 0){
                         alert("PLEASE! select checkbox.");
                     } else {
@@ -197,13 +230,9 @@ include 'db.php';
                             type:"POST",
                             data : {id :id},
                             success: function(data){
-                            console.log(data);
+                           // console.log(data);
                             if(data == true){
-                                $("#success-message").html("data delete successfully.").slideDown();
                                 $("#error-message").slideUp();
-                            }else{
-                                $("#error-message").html("data  delete ").slideDown();
-                                $("#success-message").slideUp();
                             }
                             }
                         });

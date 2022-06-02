@@ -91,22 +91,22 @@ include 'db.php';
                         <input type='hidden' id='page' value='1'>
                         <input type='hidden' id='sort' value='ASC'>
                         <th>#</th>
-                        <th class="column_sort" data-order="" data-id="id" >ID </i></th>
-                        <th class="column_sort" data-order="" data-id="fname">FNAME</th>
-                        <th class="column_sort" data-order="" data-id="lname">LNAME</th>
-                        <th class="column_sort" data-order="" data-id="dob">DOB</th>
-                        <th class="column_sort" data-order="" data-id="age">AGE</th>
-                        <th class="column_sort" data-order="" data-id="email">EMAIL</th>
-                        <th class="column_sort" data-order="" data-id="phone_no">PHONE_NO</th>
-                        <th class="column_sort" data-order="" data-id="source1">SOURCE1</th>
-                        <th class="column_sort" data-order="" data-id="campaign">CAMPAIGN</th>
-                        <th class="column_sort" data-order="" data-id="country">COUNTRY</th>
+                        <th class="column_sort" data-order="" data-id="id" >ID<span class="arrow text-white"></span></th>
+                        <th class="column_sort" data-order="" data-id="fname">FNAME<span class="arrow text-white"></th>
+                        <th class="column_sort" data-order="" data-id="lname">LNAME<span class="arrow text-white"></th>
+                        <th class="column_sort" data-order="" data-id="dob">DOB<span class="arrow text-white"></th>
+                        <th class="column_sort" data-order="" data-id="age">AGE<span class="arrow text-white"></th>
+                        <th class="column_sort" data-order="" data-id="email">EMAIL<span class="arrow text-white"></th>
+                        <th class="column_sort" data-order="" data-id="phone_no">PHONE_NO<span class="arrow text-white"></th>
+                        <th class="column_sort" data-order="" data-id="source1">SOURCE1<span class="arrow text-white"></th>
+                        <th class="column_sort" data-order="" data-id="campaign">CAMPAIGN<span class="arrow text-white"></th>
+                        <th class="column_sort" data-order="" data-id="country">COUNTRY<span class="arrow text-white"></th>
                         <th>ACTION</th>
                     </tr>
                 </thead>
                 <tbody id="reviewpage" class="paginate">
                   <br>
-                 </tbody>
+                </tbody>
             </table>
             <div class="pag-data"></div>
 
@@ -145,11 +145,11 @@ include 'db.php';
                  
                 function pagination (page=1){
                     var data_name = $("#sort_column").val();
-                  // console.log($("#sort_column").val());
+                // console.log($("#sort_column").val());
                     var data_dir = $("#sort").val();
-                  // console.log($("#sort").val());
+                // console.log($("#sort").val());
                     $("#page").attr("value", page);
-                   // console.log( $("#page").attr("value", page))
+                // console.log( $("#page").attr("value", page))
 
                     userData(page, data_name, data_dir);
                 }
@@ -167,21 +167,25 @@ include 'db.php';
                        // console.log($(this).attr("data-order"));
                         var page = $("#page").val();
                        // console.log($("#page").val());
+                        var arrow = "";
                        
                         $("#sort_column").attr("value", data_name);
                         //console.log($("#sort_column").attr("value", data_name));
 
+                        $(".arrow").html("");
                         if (data_dir == "ASC" || data_dir == "" ) {
                             $(".column_sort").attr("data-order", "DESC");
                          //   console.log( $(".column_sort").attr("data-order", "DESC"));
                             $("#sort").attr("value", "ASC");
-                             //arrow = '<span class="glyphicon glyphicon-arrow-down"></span>';  
+                            $(this).find(".arrow").html("<img src = 'arrow-up.svg' style = 'width:20px'>");
                         } else {
                             $(".column_sort").attr("data-order", "ASC");
                             $("#sort").attr("value", "DESC");
-                            // arrow = '<span class="glyphicon glyphicon-arrow-up"></span>';  
+                            $(this).find(".arrow").html("<img src = 'arrow-down.svg' style = 'width:20px'>");
 
                         }
+
+
                         userData(page, data_name, data_dir);
 
                     });
@@ -232,9 +236,10 @@ include 'db.php';
                             success: function(data){
                            // console.log(data);
                             if(data == true){
-                                $("#error-message").slideUp();
+                            $("#success-message").html("data delete successfully.").slideDown();
+                            $("#error-message").slideUp();
                             }
-                            }
+                        }
                         });
                         userData();  
                     }   

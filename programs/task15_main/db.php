@@ -125,11 +125,11 @@ class Makedatatable
 $obj= new Makedatatable();
 //$obj->multipleDelete();
 
-
- $rowdelete = new Makedatatable();
+$rowdelete = new Makedatatable();
 // $rowdelete->deleteRecord($id);
 
 $rowobj = new Makedatatable();
+
 if (count($_POST) > 0) {
 
     $rowobj->tableData();

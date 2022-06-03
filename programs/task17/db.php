@@ -10,21 +10,37 @@ class Database{
  public function displayData()
  {
          $request=$_REQUEST;
-        //  $col = array(
-        //      0 => 'id',
-        //      1 => 'name',
-        //      2 => 'address',
-        //      3 => 'gender',
-        //      4 => 'age',
-        //      5 => 'city',
-        //  );
-
-        $sql = "SELECT * FROM tbl_employee";
+         $col = array(
+             0 => 'id',
+             1 => 'name',
+             2 => 'address',
+             3 => 'gender',
+             4 => 'age',
+             5 => 'city',
+            );
+            
+        $sql= "SELECT * FROM tbl_employee";
         $query = mysqli_query($this->conn , $sql);
-          // echo $query;
         $totalData = mysqli_num_rows($query);
         $totalFilter=$totalData;
-        
+
+         if(!empty($request['search']['value'])){
+            $sql.=" WHERE  id LIKE '".$request['search']['value']."%'
+                  OR name LIKE '".$request['search']['value']."%'
+                  OR address LIKE '".$request['search']['value']."%'
+                  OR gender LIKE '".$request['search']['value']."%'
+                  OR age LIKE '".$request['search']['value']."%'
+                  OR city LIKE '".$request['search']['value']."%' ";
+
+         }
+
+        $sql.=" ORDER BY " .$col[$request['order'][0]['column']]. "   " .$request['order'][0]['dir']. "  "
+               . "  LIMIT "  . $request['start'] ." , " . $request['length']." " ;
+
+               
+        $query = mysqli_query($this->conn , $sql);
+        $totalData = mysqli_num_rows($query);
+
         $data = array();
             while ($row=mysqli_fetch_array($query)) {
                 $subdata = array();
@@ -44,7 +60,8 @@ class Database{
             "recordsFiltered"  => intval($totalFilter),
             "data"             => $data
             );
-           echo json_encode ($json_data);
+           echo json_encode ($json_data );
+        
         
      }
     }

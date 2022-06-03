@@ -1,6 +1,3 @@
-<?php
-include 'db.php';
-?>
  <!DOCTYPE html>  
  <html>  
       <head>  
@@ -47,11 +44,11 @@ include 'db.php';
         $('#employee_data').DataTable({
           processing: true,
           serverSide: true, 
-          
+        
           ajax:{
             url:"db.php",      
             type :"POST",
-          }           
+          } 
         });  
     });  
  </script>

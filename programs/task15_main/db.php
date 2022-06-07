@@ -44,7 +44,7 @@ class Makedatatable
 
         $main_res = mysqli_query($this->conn, $query);
         $total_record = mysqli_num_rows($main_res);
-         print_r("$total_record");
+         //print_r($total_record);
 
         $limit = $_POST['limit'] ? $_POST['limit'] : $total_record;
         $offset = ($page - 1) * $limit;
@@ -81,7 +81,7 @@ class Makedatatable
                 </tr>";
         }
             //$query = "SELECT * FROM person_data";
-           
+           try{
             $total_pages = ceil($total_records / $limit);
             echo"<br>";
            // print_r("$total_pages");
@@ -89,23 +89,30 @@ class Makedatatable
 
             if($page>1){
 
-				$output .= "<a class='active' id='{$i}'  onclick = pagination({$i})>Previous</a>";
+				$output .= "<a class='active'  id='{$page}'  onclick = pagination('prev',{$page})>Previous</a>";
 			} 
 
             for ($i = 1; $i <= $total_pages; $i++) {
 
-                $output .= "<a class='active' id='{$i}'  onclick = pagination({$i})>{$i}</a>";
+                $output .= "<a class='active' id='{$i}'  onclick = pagination('loop',{$i})>{$i}</a>";
             }
 
-			if($i>$page){
+			if($total_pages>$page){
 
-				$output .= "<a class='active' id='{$i}'  onclick = pagination({($i++)})>Next</a>";
+				$output .= "<a class='active' id='{$page}'  onclick = pagination('next',{$page})>Next</a>";
 			} 
 
-            $output .= "</div>";
+            $entry =(($page-1)*$limit)+1;
+            //print_r( $entry );
+            $exit = $page * $limit;
+            //print_r($exit);
+            
+            $output .= "</div> Showing $entry to $exit of $total_record entries";
             echo $output;
 			//echo "Total Rows is ". $row['count(*)'];
-			
+        }catch (exception $e){
+            echo 'and the error is:', $e->getMessage(), "\n";
+        }
         }
     }
 

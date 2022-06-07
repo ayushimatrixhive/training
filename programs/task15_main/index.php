@@ -21,7 +21,7 @@ include 'db.php';
 </head>
 <style>
     .pagination {
-        margin-left: 50%;
+        margin-left:50%;
         padding:20px;
       
     }
@@ -41,11 +41,12 @@ include 'db.php';
         padding: 8px 16px;
         margin:8px;
         color: white;
+        
     }
-
     .pagination a:hover:not(.active) {
         background-color: #ddd;
     }
+
     .delete-btn{
       background-color:red;
       color:white;
@@ -55,7 +56,6 @@ include 'db.php';
       cursor:pointer;
 
     }
-   
     
 </style>
 
@@ -116,7 +116,7 @@ include 'db.php';
             
 
         <script>
-                function userData(page=1,data_name,data_dir) {
+                function userData(page,data_name,data_dir) {
                    // alert("page");
                     var limit = $("#limit").val();
                     var search = $("#search").val();
@@ -143,7 +143,13 @@ include 'db.php';
                     });
                 }
                  
-                function pagination (page=1){
+                function pagination (action , page){
+                   // alert(page);
+                    if(action == 'next')
+                        page+=1;
+                    else if(action == 'prev')
+                         page -=1;
+
                     var data_name = $("#sort_column").val();
                 // console.log($("#sort_column").val());
                     var data_dir = $("#sort").val();
@@ -153,8 +159,6 @@ include 'db.php';
 
                     userData(page, data_name, data_dir);
                 }
-
-
                 $(document).ready(function() {
                     userData();    
 

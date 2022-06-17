@@ -82,6 +82,3 @@
   <!-- //copyright -->
 </section>
 <!-- //footer -->
-
-@yield('footer')
-@yield('content')

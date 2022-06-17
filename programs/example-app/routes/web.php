@@ -17,22 +17,44 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::get('/index', function () {
     return view('index');
 });
-
+Route::get('/about', function () {
+    return view('about');
+});
+Route::get('/courses', function () {
+    return view('courses');
+});
+Route::get('/contact', function () {
+    return view('contact');
+});
 Route::get('/about', function () {
     return view('about');
 });
 
-Route::get('/courses', function () {
-    return view('courses');
+Route::get('/header', function () {
+    return view('header');
 });
 
-Route::get('/contact', function () {
-    return view('contact');
+Route::get('/breadcrumb', function () {
+    return view('breadcrumb');
 });
 
+Route::get('/middle', function () {
+    return view('middle');
+});
+Route::get('/javascript', function () {
+    return view('javascript');
+});
+Route::get('/footer', function () {
+    return view('footer');
+});
+
+Route::get('/layouts/appmain', function () {
+    return view('layouts.appmain');
+});
 
 Auth::routes();
 

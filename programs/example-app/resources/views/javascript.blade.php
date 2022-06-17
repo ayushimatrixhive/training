@@ -1,3 +1,4 @@
+
 <!-- Template JavaScript -->
 <script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
 
@@ -111,5 +112,3 @@
   });
 </script>
 <!--//MENU-JS-->
-@yield('javascript')
-@yield('content')

@@ -2,31 +2,10 @@
 Author: W3layouts
 Author URL: http://w3layouts.com
 -->
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Study Course - Education Category Bootstrap Responsive Template | Home : W3layouts</title>
-
-    <!-- google fonts -->
-    <link href="//fonts.googleapis.com/css?family=Nunito:400,700&display=swap" rel="stylesheet">
-    <link href="//fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js" integrity="sha256-6XMVI0zB8cRzfZjqKcD01PBsAy3FlDASrlC8SxCpInY=" crossorigin="anonymous"></script>
-    
-    <!-- Template CSS -->
-
-    <link href="{{ asset('css/style-starter.css')}}" rel="stylesheet">
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    
-  </head>
-  <body>
 <!--header-->
-@extends('layouts.header')
-@section('header')
+@extends('layouts.appmain')
+@section('section')
 @endsection
 <!--/header-->
 <!-- main-slider -->
@@ -724,17 +703,6 @@ Author URL: http://w3layouts.com
         </div>
     </div>
 </section>
-<!-- footer -->
-@extends('layouts.footer')
-@section('footer')
-@endsection
-<!-- //footer -->
-
-<!-- Template JavaScript -->
-@extends('layouts.javascript')
-@section('javascript')
-@endsection
-<!--//MENU-JS-->
 
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
 

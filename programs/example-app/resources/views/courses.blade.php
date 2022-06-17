@@ -5,8 +5,8 @@ Author URL: http://w3layouts.com
 
 <!--header-->
 @extends('layouts.appmain')
-@section('section')
-@endsection
+@section('content')
+
 <!--/header-->
 <!-- about breadcrumb -->
 <section class="w3l-breadcrumb">
@@ -349,7 +349,4 @@ Author URL: http://w3layouts.com
 
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
 
-
-</body>
-
-</html>
+@endsection

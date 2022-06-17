@@ -3,8 +3,8 @@ Author: W3layouts
 Author URL: http://w3layouts.com
 -->
 @extends('layouts.appmain')
-@section('contact')
-@endsection
+@section('content')
+
 
 <!-- about breadcrumb -->
 <section class="w3l-breadcrumb">
@@ -96,8 +96,4 @@ Author URL: http://w3layouts.com
 <!-- //contact block -->
 
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
-
-
-</body>
-
-</html>
+@endsection

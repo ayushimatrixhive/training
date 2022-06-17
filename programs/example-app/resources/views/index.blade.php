@@ -5,10 +5,11 @@ Author URL: http://w3layouts.com
 
 <!--header-->
 @extends('layouts.appmain')
-@section('section')
-@endsection
+@section('content')
+
 <!--/header-->
 <!-- main-slider -->
+
 <section class="w3l-main-slider" id="home">
     <div class="companies20-content">
         <div class="owl-one owl-carousel owl-theme">
@@ -705,8 +706,4 @@ Author URL: http://w3layouts.com
 </section>
 
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
-
-
-</body>
-
-</html>
+@endsection

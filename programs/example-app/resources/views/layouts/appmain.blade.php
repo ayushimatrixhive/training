@@ -16,7 +16,6 @@
   </head>
   <body>
    <!--header-->
-
           <header id="site-header" class="fixed-top">
             <div class="container">
               <nav class="navbar navbar-expand-lg navbar-dark stroke">
@@ -93,17 +92,16 @@
               </nav>
             </div>
           </header>
-<!--/header-->
-            <!-- footer -->
-            @include('footer')
-            <!-- //footer -->
-            <!-- Template JavaScript -->
-           @include('javascript')
-            <!--//MENU-JS-->
+          
+         
             <script src="{{asset('js/bootstrap.min.js')}}"></script>
         <main class="py-4">
             @yield('content')
         </main>
+
+        @include('footer')
+        @include('javascript')
+            <!--//MENU-JS-->
     </div>
 </body>
 </html>

@@ -15,7 +15,8 @@
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __(' Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"  onchange="validateName();" name="name" value="{{ old('name') }}"  autocomplete="name" autofocus>
+                                <span class="error" id = "nameError"></span>
 
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
@@ -29,8 +30,8 @@
                             <label for="lname" class="col-md-4 col-form-label text-md-end">{{ __('Last Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="lname" type="text" class="form-control @error('lname') is-invalid @enderror" name="lname" value="{{ old('lname') }}" required autocomplete="lname" autofocus>
-
+                                <input id="lname" type="text" class="form-control @error('lname') is-invalid @enderror"  onchange="validateName();" name="lname" value="{{ old('lname') }}"  autocomplete="lname" autofocus>
+                                <span class="error" id = "lnameError"></span>
                                 @error('lname')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -43,8 +44,8 @@
                             <label for="dob" class="col-md-4 col-form-label text-md-end">{{ __('Date of Birth') }}</label>
 
                             <div class="col-md-6">
-                                <input id="dob" type="date" class="form-control @error('dob') is-invalid @enderror" name="dob"  value="{{ old('dob') }}" required autocomplete="dob" autofocus>
-
+                                <input id="dob" type="date" class="form-control @error('dob') is-invalid @enderror" name="dob" onchange="getAge();" value="{{ old('dob') }}"  autocomplete="dob" autofocus>
+                                <span class="error" id = "dobError"></span>
                                 @error('dob')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -57,8 +58,8 @@
                             <label for="age" class="col-md-4 col-form-label text-md-end">{{ __('Age') }}</label>
 
                             <div class="col-md-6">
-                                <input id="age" type="text" class="form-control @error('age') is-invalid @enderror" name="age" value="{{ old('age') }}" required autocomplete="age" autofocus>
-
+                                <input id="age" type="text" class="form-control @error('age') is-invalid @enderror" name="age" value="{{ old('age') }}"  autocomplete="age" autofocus>
+                                <span class="error" id = "ageError"></span>
                                 @error('age')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -71,13 +72,13 @@
                             <label for="gender" class="col-md-4 col-form-label text-md-end">{{ __('Gender') }}</label>
 
                             <div class="col-md-6">
-                                <input id="gender" type="text" class="form-control @error('gender') is-invalid @enderror" name="gender" value="{{ old('gender') }}" required autocomplete="gender" autofocus>
+                                <!-- <input id="gender" type="text" class="form-control @error('gender') is-invalid @enderror" name="gender" value="{{ old('gender') }}"  autocomplete="gender" autofocus> -->
                             <span class="form-check form-check-inline" >
-                                <input class="form-check-input" type="radio" name="gander" value="male">
+                                <input class="form-check-input" type="radio" name="gender" value="male">
                                 <label class="form-check-label" for="male">Male</label>
                                 </span>
                             <span class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="gander" value="female">
+                                <input class="form-check-input" type="radio" name="gender" value="female">
                                 <label class="form-check-label" for="female">Female</label>
                             </span>
                                 @error('gender')
@@ -92,7 +93,7 @@
                             <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"  autocomplete="email">
 
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -106,7 +107,7 @@
                             <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password"  autocomplete="new-password">
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -120,7 +121,7 @@
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation"  autocomplete="new-password">
                             </div>
                         </div>
 
@@ -138,7 +139,30 @@
     </div>
 </div>
 
-<!-- <script type="text/javascript">
+<script type="text/javascript">
+
+function validateName() {
+      var name = document.getElementById('name').value;
+      var nameRegex =  /^[0-9a-zA-Z\s]*$/;
+      if (name.length === 0 ) {
+        document.getElementById('nameError').innerHTML = "";
+      } else if(!nameRegex.test(name)){ 
+        document.getElementById('nameError').innerHTML = "<br>Please provide valid name";
+      } else {
+        document.getElementById('nameError').innerHTML = "";
+      }
+    }
+
+    var lname = document.getElementById('lname').value;
+      var lnameRegex =  /^[0-9a-zA-Z\s]*$/;
+      if (lname.length === 0 ) {
+        document.getElementById('lnameError').innerHTML = "";
+      } else if(!lnameRegex.test(lname)){ 
+        document.getElementById('lnameError').innerHTML = "<br>Please provide valid lname";
+      } else {
+        document.getElementById('lnameError').innerHTML = "";
+      }
+
 function getAge() {  
           var dobValue = document.getElementById('dob').value;
           if (dobValue === "") {
@@ -165,5 +189,5 @@ function getAge() {
               }
           }
         }
-    </script> -->
+    </script>
 @endsection

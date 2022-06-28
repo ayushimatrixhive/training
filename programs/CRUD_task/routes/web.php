@@ -7,9 +7,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/view', [ProductController::class, 'index'])->name('index');
+Route::get('/listing', [ProductController::class, 'show'])->name('show');
 
-Route::post('/view', [ProductController::class, 'create'])->name('create');
+Route::get('/product', [ProductController::class, 'index'])->name('index');
+
+Route::post('/product', [ProductController::class, 'create'])->name('create');
 
 Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('edit');
 
@@ -17,9 +19,9 @@ Route::put('/edit/{id}', [ProductController::class, 'update'])->name('update');
 
 Route::get('/delete/{id}', [ProductController::class, 'destroy'])->name('destroy');
 
-//Route::get('/view', [ProductController::class, 'store'])->name('store');
+Route::post('/edit/{id}', [ProductController::class, 'store'])->name('store');
 
-// Route::get('/edit', [StudentController::class, 'store'])->name('store');
+
 
 Auth::routes();
 
